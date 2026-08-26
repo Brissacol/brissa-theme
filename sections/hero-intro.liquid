@@ -98,6 +98,27 @@
       const b = Math.round(this.fromColor[2] + (this.toColor[2] - this.fromColor[2]) * eased);
 
       this.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+      this.updateTagline(progress);
+    }
+
+    updateTagline(progress) {
+      const fadeOutEnd = 0.4;
+
+      if (progress > 0.001) {
+        if (!this.taglineManual) {
+          this.taglineManual = true;
+          this.tagline.style.transition = 'none';
+        }
+
+        const fadeProgress = Math.min(1, progress / fadeOutEnd);
+        const fadeEased = fadeProgress * fadeProgress * (3 - 2 * fadeProgress);
+        this.tagline.style.opacity = String(1 - fadeEased);
+      } else if (this.taglineManual) {
+        this.taglineManual = false;
+        this.tagline.style.transition = '';
+        this.tagline.style.opacity = '';
+      }
     }
   }
 
