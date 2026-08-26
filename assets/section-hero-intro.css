@@ -1,9 +1,26 @@
 .hero-intro {
   display: block;
   position: relative;
-  height: 300vh;
-  height: 300dvh;
+  height: 180vh;
+  height: 180dvh;
   background-color: rgb(var(--hero-intro-from));
+}
+
+.hero-intro__bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  will-change: opacity;
+}
+
+.hero-intro__bg-layer--from {
+  background-color: rgb(var(--hero-intro-from));
+  opacity: 1;
+}
+
+.hero-intro__bg-layer--to {
+  background-color: rgb(var(--hero-intro-to));
+  opacity: 0;
 }
 
 .hero-intro__sticky {
@@ -44,6 +61,7 @@
 .hero-intro__logo {
   opacity: 0;
   transition: opacity 0.8s cubic-bezier(0.33, 0, 0.2, 1);
+  will-change: opacity;
 }
 
 .hero-intro__logo--visible {
@@ -72,6 +90,7 @@
   left: 0;
   opacity: 0;
   pointer-events: none;
+  will-change: opacity;
 }
 
 .hero-intro__tagline {
@@ -81,6 +100,7 @@
   color: rgb(var(--hero-intro-text));
   opacity: 0;
   transition: opacity 0.7s cubic-bezier(0.33, 0, 0.2, 1);
+  will-change: opacity;
 }
 
 .hero-intro__tagline--visible {

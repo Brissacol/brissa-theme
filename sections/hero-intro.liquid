@@ -14,6 +14,9 @@
     --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
   "
 >
+  <div class="hero-intro__bg-layer hero-intro__bg-layer--from"></div>
+  <div class="hero-intro__bg-layer hero-intro__bg-layer--to" data-hero-intro-bg-to></div>
+
   <div class="hero-intro__sticky">
     <div class="hero-intro__content">
       <div class="hero-intro__logo-stage">
@@ -57,9 +60,8 @@
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
       this.wordmarkImg = this.querySelector('.hero-intro__logo-img');
       this.mark = this.querySelector('[data-hero-intro-mark]');
+      this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
-      this.fromColor = this.readColor('--hero-intro-from');
-      this.toColor = this.readColor('--hero-intro-to');
       this.ticking = false;
 
       this.markGlyphX = 735;
@@ -73,7 +75,7 @@
       };
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        this.style.backgroundColor = `rgb(${this.toColor.join(',')})`;
+        this.bgTo.style.opacity = '1';
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
         return;
@@ -105,13 +107,6 @@
       if (window.visualViewport) {
         window.visualViewport.removeEventListener('resize', this.onResizeHandler);
       }
-    }
-
-    readColor(propertyName) {
-      return getComputedStyle(this)
-        .getPropertyValue(propertyName)
-        .split(',')
-        .map((value) => parseInt(value.trim(), 10));
     }
 
     measure() {
@@ -170,12 +165,7 @@
 
     updateBackground(progress) {
       const eased = this.phaseProgress(progress, this.phases.bg);
-
-      const r = Math.round(this.fromColor[0] + (this.toColor[0] - this.fromColor[0]) * eased);
-      const g = Math.round(this.fromColor[1] + (this.toColor[1] - this.fromColor[1]) * eased);
-      const b = Math.round(this.fromColor[2] + (this.toColor[2] - this.fromColor[2]) * eased);
-
-      this.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      this.bgTo.style.opacity = String(eased);
     }
 
     updateTagline(progress) {
