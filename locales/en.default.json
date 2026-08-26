@@ -3,6 +3,15 @@
     "intro_animation": {
       "tagline": "Elixires para el alma"
     },
+    "hero_narrative": {
+      "fragment_1": "Más que una vela.",
+      "fragment_2": "Aroma, calidez, decoración — y para muchos, eso ya es suficiente.",
+      "fragment_3": "Cada BRISSA nace de cera de soya natural, hecha a mano.",
+      "fragment_4": "Pero si lo deseas, puede ser aún más tuya.",
+      "fragment_5": "Una vela intencionada y canalizada con tu carta angelical — con tu nombre, tu fecha de nacimiento, tu energía.",
+      "fragment_6": "Un regalo, completamente gratuito. Esa es la esencia de BRISSA.",
+      "fragment_7": "Para llenar tu espacio. O para acompañar tu camino. Tú eliges."
+    },
     "password_page": {
       "login_form_heading": "Enter store using password:",
       "login_password_button": "Enter using password",
