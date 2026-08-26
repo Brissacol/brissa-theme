@@ -12,79 +12,31 @@
     --hero-intro-from: {{ scheme_from.settings.background.red }},{{ scheme_from.settings.background.green }},{{ scheme_from.settings.background.blue }};
     --hero-intro-to: {{ scheme_to.settings.background.red }},{{ scheme_to.settings.background.green }},{{ scheme_to.settings.background.blue }};
     --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
-    --hero-intro-gold: {{ scheme_from.settings.button.red }},{{ scheme_from.settings.button.green }},{{ scheme_from.settings.button.blue }};
   "
 >
   <div class="hero-intro__bg-layer hero-intro__bg-layer--from"></div>
   <div class="hero-intro__bg-layer hero-intro__bg-layer--to" data-hero-intro-bg-to></div>
 
   <div class="hero-intro__sticky">
-    <div class="hero-intro__glow" aria-hidden="true"></div>
-
-    <div class="hero-intro__content" data-hero-intro-content>
-      <div class="hero-intro__logo-stage">
-        {%- if settings.logo != blank -%}
-          {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-          <div class="hero-intro__logo hero-intro__logo--image" data-hero-intro-wordmark>
-            {{
-              settings.logo
-              | image_url: width: 600
-              | image_tag:
-                loading: 'eager',
-                widths: '200,300,400,600',
-                alt: logo_alt,
-                sizes: '(min-width: 750px) 30rem, 78vw',
-                class: 'hero-intro__logo-img'
-            }}
-          </div>
-        {%- else -%}
-          <p class="hero-intro__logo hero-intro__logo--text" data-hero-intro-wordmark>{{ shop.name }}</p>
-        {%- endif -%}
-
-        <img
-          class="hero-intro__mark"
-          data-hero-intro-mark
-          src="{{ 'brissa-logo-lila-transparente.png' | asset_url }}"
-          alt="{{ shop.name }}"
-          loading="eager"
-          width="2000"
-          height="2000"
-        >
-      </div>
+    <div class="hero-intro__content">
+      {%- if settings.logo != blank -%}
+        {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+        <div class="hero-intro__logo hero-intro__logo--image" data-hero-intro-wordmark>
+          {{
+            settings.logo
+            | image_url: width: 600
+            | image_tag:
+              loading: 'eager',
+              widths: '200,300,400,600',
+              alt: logo_alt,
+              sizes: '(min-width: 750px) 26rem, 60vw'
+          }}
+        </div>
+      {%- else -%}
+        <p class="hero-intro__logo hero-intro__logo--text" data-hero-intro-wordmark>{{ shop.name }}</p>
+      {%- endif -%}
 
       <p class="hero-intro__tagline" data-hero-intro-tagline>{{ 'general.intro_animation.tagline' | t }}</p>
-
-      <div class="hero-intro__narrative" data-hero-intro-narrative>
-        <div class="hero-intro__icon-stack" aria-hidden="true">
-          <svg class="hero-intro__icon" data-hero-intro-icon="flame" viewBox="0 0 24 24" focusable="false">
-            <path d="M12 3C9 8 7 11.5 7 14.5C7 17.5 9.5 20 12 20C14.5 20 17 17.5 17 14.5C17 11.5 15 8 12 3Z"/>
-          </svg>
-          <svg class="hero-intro__icon" data-hero-intro-icon="constellation" viewBox="0 0 24 24" focusable="false">
-            <path d="M4 18L9 9L14 13L20 6"/>
-            <circle cx="4" cy="18" r="1.2"/>
-            <circle cx="9" cy="9" r="1.2"/>
-            <circle cx="14" cy="13" r="1.2"/>
-            <circle cx="20" cy="6" r="1.2"/>
-          </svg>
-          <svg class="hero-intro__icon" data-hero-intro-icon="fusion" viewBox="0 0 24 24" focusable="false">
-            <path d="M10 7C8 10 7 12.5 7 14.3C7 16.6 8.6 18.3 10.7 18.3C12.8 18.3 14.3 16.6 14.3 14.3C14.3 12.5 13.3 10 10 7Z"/>
-            <path d="M17.5,3.8 Q17.5,7 20.7,7 Q17.5,7 17.5,10.2 Q17.5,7 14.3,7 Q17.5,7 17.5,3.8 Z"/>
-          </svg>
-        </div>
-
-        <div class="hero-intro__narrative-row">
-          <div class="hero-intro__guide" aria-hidden="true">
-            <div class="hero-intro__guide-marker" data-hero-intro-guide-marker></div>
-          </div>
-
-          <div class="hero-intro__fragments">
-            {%- for i in (1..7) -%}
-              {%- assign fragment_key = 'general.hero_narrative.fragment_' | append: i -%}
-              <p class="hero-intro__fragment" data-hero-intro-fragment="{{ forloop.index0 }}">{{ fragment_key | t }}</p>
-            {%- endfor -%}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </hero-intro-scroll>
@@ -92,40 +44,15 @@
 {% javascript %}
   class HeroIntroScroll extends HTMLElement {
     connectedCallback() {
-      this.sticky = this.querySelector('.hero-intro__sticky');
-      this.content = this.querySelector('[data-hero-intro-content]');
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
-      this.wordmarkImg = this.querySelector('.hero-intro__logo-img');
-      this.mark = this.querySelector('[data-hero-intro-mark]');
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
-      this.fragments = Array.from(this.querySelectorAll('[data-hero-intro-fragment]'));
-      this.narrative = this.querySelector('[data-hero-intro-narrative]');
-      this.guideMarker = this.querySelector('[data-hero-intro-guide-marker]');
-      this.icons = {
-        flame: this.querySelector('[data-hero-intro-icon="flame"]'),
-        constellation: this.querySelector('[data-hero-intro-icon="constellation"]'),
-        fusion: this.querySelector('[data-hero-intro-icon="fusion"]'),
-      };
       this.ticking = false;
-      this.cornered = false;
-
-      this.markGlyphX = 735;
-      this.markGlyphY = 535;
-      this.markGlyphHeight = 692;
-      this.markCanvas = 2000;
-      this.cornerScale = 0.4;
-      this.cornerPadding = 28;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         this.bgTo.style.opacity = '1';
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
-        this.narrative.style.opacity = '1';
-        const lastFragment = this.fragments[this.fragments.length - 1];
-        if (lastFragment) lastFragment.style.opacity = '1';
-        this.icons.fusion.style.opacity = '1';
-        if (this.guideMarker) this.guideMarker.style.top = '100%';
         return;
       }
 
@@ -157,40 +84,6 @@
 
     measure() {
       this.scrollBudget = window.innerHeight * 0.6;
-
-      if (!this.wordmarkImg) return;
-
-      const wordmarkRect = this.wordmarkImg.getBoundingClientRect();
-      if (wordmarkRect.height === 0) return;
-
-      const scale = wordmarkRect.height / this.markGlyphHeight;
-      const size = this.markCanvas * scale;
-
-      this.mark.style.width = `${size}px`;
-      this.mark.style.height = `${size}px`;
-      this.mark.style.left = `${-this.markGlyphX * scale}px`;
-      this.mark.style.top = `${-this.markGlyphY * scale}px`;
-
-      const wasCornered = this.mark.classList.contains('hero-intro__mark--corner');
-      if (wasCornered) this.mark.classList.remove('hero-intro__mark--corner');
-
-      const markRect = this.mark.getBoundingClientRect();
-      const stickyRect = this.sticky.getBoundingClientRect();
-
-      const relativeMarkLeft = markRect.left - stickyRect.left;
-      const relativeMarkTop = markRect.top - stickyRect.top;
-      const glyphX = relativeMarkLeft + this.markGlyphX * scale * this.cornerScale;
-      const glyphY = relativeMarkTop + this.markGlyphY * scale * this.cornerScale;
-
-      const translateX = this.cornerPadding - glyphX;
-      const translateY = this.cornerPadding - glyphY;
-
-      this.mark.style.setProperty(
-        '--hero-intro-mark-corner-transform',
-        `translate(${translateX}px, ${translateY}px) scale(${this.cornerScale})`
-      );
-
-      if (wasCornered) this.mark.classList.add('hero-intro__mark--corner');
     }
 
     onResize() {
@@ -223,112 +116,33 @@
       const progress = Math.min(1, Math.max(0, scrollY / budget));
 
       this.updateBackground(progress);
-      this.updateTagline(progress);
-      this.updateMorph(progress);
-      this.updateFragments(progress);
-      this.updateCorner(progress);
+      this.updateFade(progress);
     }
 
     updateBackground(progress) {
       this.bgTo.style.opacity = String(this.smoothstep(progress));
     }
 
-    updateTagline(progress) {
-      const fadeOutEnd = 0.3;
+    updateFade(progress) {
+      const fadeOutEnd = 0.6;
 
       if (progress > 0.001) {
-        if (!this.taglineManual) {
-          this.taglineManual = true;
+        if (!this.faded) {
+          this.faded = true;
+          this.logo.style.transition = 'none';
           this.tagline.style.transition = 'none';
         }
 
-        const fadeEased = this.smoothstep(this.remap(progress, 0, fadeOutEnd));
-        this.tagline.style.opacity = String(1 - fadeEased);
-      } else if (this.taglineManual) {
-        this.taglineManual = false;
-        this.tagline.style.transition = '';
-        this.tagline.style.opacity = '';
-      }
-    }
-
-    updateMorph(progress) {
-      const eased = this.smoothstep(progress);
-
-      if (progress > 0.001) {
-        if (!this.logoManual) {
-          this.logoManual = true;
-          this.logo.style.transition = 'none';
-        }
-
-        this.logo.style.opacity = String(1 - eased);
-      } else if (this.logoManual) {
-        this.logoManual = false;
+        const eased = this.smoothstep(this.remap(progress, 0, fadeOutEnd));
+        const opacity = String(1 - eased);
+        this.logo.style.opacity = opacity;
+        this.tagline.style.opacity = opacity;
+      } else if (this.faded) {
+        this.faded = false;
         this.logo.style.transition = '';
+        this.tagline.style.transition = '';
         this.logo.style.opacity = '';
-      }
-
-      this.mark.style.opacity = String(eased);
-    }
-
-    updateFragments(progress) {
-      const count = this.fragments.length;
-      if (count === 0) return;
-
-      if (this.narrative) {
-        this.narrative.style.opacity = progress > 0.001 ? '1' : '0';
-      }
-
-      const step = 1 / count;
-
-      this.fragments.forEach((fragment, index) => {
-        const center = (index + 0.5) * step;
-        const distance = Math.abs(progress - center) / step;
-
-        let opacity;
-        if (distance <= 0.35) {
-          opacity = 1;
-        } else if (distance >= 0.65) {
-          opacity = 0;
-        } else {
-          const t = (distance - 0.35) / 0.3;
-          opacity = 1 - this.smoothstep(t);
-        }
-
-        const offsetY = (1 - opacity) * 14;
-
-        fragment.style.opacity = String(opacity);
-        fragment.style.transform = `translateY(${offsetY}px)`;
-      });
-
-      if (this.guideMarker) {
-        this.guideMarker.style.top = `${progress * 100}%`;
-      }
-
-      const boundary23 = 3 / count;
-      const boundary56 = 6 / count;
-      const transitionWidth = (1 / count) * 0.9;
-
-      const crossfade23 = this.smoothstep(
-        this.remap(progress, boundary23 - transitionWidth / 2, boundary23 + transitionWidth / 2)
-      );
-      const crossfade56 = this.smoothstep(
-        this.remap(progress, boundary56 - transitionWidth / 2, boundary56 + transitionWidth / 2)
-      );
-
-      this.icons.flame.style.opacity = String(1 - crossfade23);
-      this.icons.constellation.style.opacity = String(crossfade23 * (1 - crossfade56));
-      this.icons.fusion.style.opacity = String(crossfade56);
-    }
-
-    updateCorner(progress) {
-      const shouldCorner = progress >= 0.999;
-
-      if (shouldCorner && !this.cornered) {
-        this.cornered = true;
-        this.mark.classList.add('hero-intro__mark--corner');
-      } else if (!shouldCorner && this.cornered) {
-        this.cornered = false;
-        this.mark.classList.remove('hero-intro__mark--corner');
+        this.tagline.style.opacity = '';
       }
     }
   }

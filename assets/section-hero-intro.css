@@ -35,60 +35,13 @@
   overflow: hidden;
 }
 
-.hero-intro__glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20rem;
-  height: 20rem;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(var(--hero-intro-gold), 0.24) 0%, rgba(var(--hero-intro-gold), 0) 70%);
-  filter: blur(2px);
-  animation: hero-intro-breathe 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes hero-intro-breathe {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(0.94);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.04);
-  }
-}
-
 .hero-intro__content {
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.9rem;
-  max-height: 100%;
-  overflow: hidden;
-  padding: 1.5rem 2rem;
-}
-
-.hero-intro__logo-stage {
-  position: relative;
-  width: min(20rem, 68vw);
-  aspect-ratio: 731 / 154;
-  flex-shrink: 0;
-}
-
-.hero-intro__logo-stage > .hero-intro__logo {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
+  gap: 1.5rem;
+  padding: 0 2rem;
 }
 
 .hero-intro__logo {
@@ -102,39 +55,26 @@
 }
 
 .hero-intro__logo--text {
+  margin: 0;
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   letter-spacing: 0.3rem;
   text-transform: uppercase;
   color: rgb(var(--hero-intro-text));
 }
 
-.hero-intro__logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.hero-intro__mark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  pointer-events: none;
-  will-change: opacity, transform;
-  transform-origin: 0 0;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-intro__mark--corner {
-  transform: var(--hero-intro-mark-corner-transform);
+.hero-intro__logo--image img {
+  display: block;
+  width: 22rem;
+  max-width: 60vw;
+  height: auto;
 }
 
 .hero-intro__tagline {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   letter-spacing: 0.1rem;
   color: rgb(var(--hero-intro-text));
   opacity: 0;
@@ -146,110 +86,13 @@
   opacity: 1;
 }
 
-.hero-intro__narrative {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.9rem;
-  opacity: 0;
-  will-change: opacity;
-}
-
-.hero-intro__icon-stack {
-  position: relative;
-  width: 3.2rem;
-  height: 3.2rem;
-  flex-shrink: 0;
-}
-
-.hero-intro__icon {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  stroke: rgb(var(--hero-intro-gold));
-  fill: none;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0;
-  will-change: opacity;
-}
-
-.hero-intro__icon circle {
-  fill: rgb(var(--hero-intro-gold));
-  stroke: none;
-}
-
-.hero-intro__narrative-row {
-  display: flex;
-  align-items: stretch;
-  gap: 1rem;
-  max-width: 30rem;
-}
-
-.hero-intro__guide {
-  position: relative;
-  width: 2px;
-  flex-shrink: 0;
-  background: rgba(var(--hero-intro-gold), 0.25);
-  border-radius: 1px;
-}
-
-.hero-intro__guide-marker {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: rgb(var(--hero-intro-gold));
-  transform: translate(-50%, -50%);
-  will-change: top;
-}
-
-.hero-intro__fragments {
-  position: relative;
-  flex: 1;
-  min-height: 10rem;
-  text-align: left;
-}
-
-.hero-intro__fragment {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  font-family: var(--font-heading-family);
-  font-style: var(--font-heading-style);
-  font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-  color: rgb(var(--hero-intro-text));
-  opacity: 0;
-  will-change: opacity, transform;
-}
-
 @media screen and (min-width: 750px) {
-  .hero-intro__logo-stage {
-    width: 24rem;
-  }
-
   .hero-intro__logo--text {
-    font-size: 2.8rem;
+    font-size: 3.4rem;
   }
 
-  .hero-intro__icon-stack {
-    width: 3.6rem;
-    height: 3.6rem;
-  }
-
-  .hero-intro__fragments {
-    min-height: 8rem;
-  }
-
-  .hero-intro__fragment {
-    font-size: 1.9rem;
+  .hero-intro__logo--image img {
+    width: 26rem;
   }
 }
 
@@ -261,35 +104,12 @@
   .hero-intro__sticky {
     position: relative;
     height: auto;
-    padding: 6rem 0;
-  }
-
-  .hero-intro__content {
-    max-height: none;
-    overflow: visible;
-  }
-
-  .hero-intro__narrative {
-    opacity: 1;
+    padding: 8rem 0;
   }
 
   .hero-intro__logo,
   .hero-intro__tagline {
     transition: none;
     opacity: 1;
-  }
-
-  .hero-intro__fragment {
-    transition: none;
-    transform: none;
-  }
-
-  .hero-intro__fragment:last-child {
-    opacity: 1;
-  }
-
-  .hero-intro__mark {
-    opacity: 0;
-    transition: none;
   }
 }
