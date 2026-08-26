@@ -1,7 +1,8 @@
 {
   "general": {
     "intro_animation": {
-      "tagline": "Elixires para el alma"
+      "tagline": "Elixires para el alma",
+      "scroll_hint": "Desliza hacia arriba"
     },
     "hero_narrative": {
       "fragment_1": "Más que una vela.",

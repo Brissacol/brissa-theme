@@ -12,6 +12,7 @@
     --hero-intro-from: {{ scheme_from.settings.background.red }},{{ scheme_from.settings.background.green }},{{ scheme_from.settings.background.blue }};
     --hero-intro-to: {{ scheme_to.settings.background.red }},{{ scheme_to.settings.background.green }},{{ scheme_to.settings.background.blue }};
     --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
+    --hero-intro-gold: {{ scheme_from.settings.button.red }},{{ scheme_from.settings.button.green }},{{ scheme_from.settings.button.blue }};
   "
 >
   <div class="hero-intro__bg-layer hero-intro__bg-layer--from"></div>
@@ -37,6 +38,13 @@
       {%- endif -%}
 
       <p class="hero-intro__tagline" data-hero-intro-tagline>{{ 'general.intro_animation.tagline' | t }}</p>
+
+      <div class="hero-intro__scroll-hint" data-hero-intro-scroll-hint>
+        <span class="hero-intro__scroll-hint-text">{{ 'general.intro_animation.scroll_hint' | t }}</span>
+        <svg class="hero-intro__scroll-hint-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
   </div>
 </hero-intro-scroll>
@@ -47,12 +55,14 @@
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
+      this.scrollHint = this.querySelector('[data-hero-intro-scroll-hint]');
       this.ticking = false;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         this.bgTo.style.opacity = '1';
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
+        this.scrollHint.classList.add('hero-intro__scroll-hint--visible');
         return;
       }
 
@@ -71,6 +81,7 @@
 
       requestAnimationFrame(() => this.logo.classList.add('hero-intro__logo--visible'));
       window.setTimeout(() => this.tagline.classList.add('hero-intro__tagline--visible'), 500);
+      window.setTimeout(() => this.scrollHint.classList.add('hero-intro__scroll-hint--visible'), 900);
     }
 
     disconnectedCallback() {
@@ -131,18 +142,22 @@
           this.faded = true;
           this.logo.style.transition = 'none';
           this.tagline.style.transition = 'none';
+          this.scrollHint.style.transition = 'none';
         }
 
         const eased = this.smoothstep(this.remap(progress, 0, fadeOutEnd));
         const opacity = String(1 - eased);
         this.logo.style.opacity = opacity;
         this.tagline.style.opacity = opacity;
+        this.scrollHint.style.opacity = opacity;
       } else if (this.faded) {
         this.faded = false;
         this.logo.style.transition = '';
         this.tagline.style.transition = '';
+        this.scrollHint.style.transition = '';
         this.logo.style.opacity = '';
         this.tagline.style.opacity = '';
+        this.scrollHint.style.opacity = '';
       }
     }
   }
