@@ -27,7 +27,7 @@
                 loading: 'eager',
                 widths: '200,300,400,600',
                 alt: logo_alt,
-                sizes: '(min-width: 750px) 22rem, 60vw',
+                sizes: '(min-width: 750px) 30rem, 78vw',
                 class: 'hero-intro__logo-img'
             }}
           </div>
@@ -55,11 +55,17 @@
   class HeroIntroScroll extends HTMLElement {
     connectedCallback() {
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
+      this.wordmarkImg = this.querySelector('.hero-intro__logo-img');
       this.mark = this.querySelector('[data-hero-intro-mark]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.fromColor = this.readColor('--hero-intro-from');
       this.toColor = this.readColor('--hero-intro-to');
       this.ticking = false;
+
+      this.markGlyphX = 735;
+      this.markGlyphY = 535;
+      this.markGlyphHeight = 692;
+      this.markCanvas = 2000;
 
       this.phases = {
         bg: [0, 0.5],
@@ -75,12 +81,15 @@
 
       this.mark.style.transition = 'none';
 
+      this.measure();
+
       this.onScrollHandler = this.onScroll.bind(this);
+      this.onResizeHandler = this.onResize.bind(this);
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-      window.addEventListener('resize', this.onScrollHandler);
+      window.addEventListener('resize', this.onResizeHandler);
 
       if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', this.onScrollHandler);
+        window.visualViewport.addEventListener('resize', this.onResizeHandler);
       }
 
       this.updateProgress();
@@ -91,10 +100,10 @@
 
     disconnectedCallback() {
       window.removeEventListener('scroll', this.onScrollHandler);
-      window.removeEventListener('resize', this.onScrollHandler);
+      window.removeEventListener('resize', this.onResizeHandler);
 
       if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', this.onScrollHandler);
+        window.visualViewport.removeEventListener('resize', this.onResizeHandler);
       }
     }
 
@@ -103,6 +112,26 @@
         .getPropertyValue(propertyName)
         .split(',')
         .map((value) => parseInt(value.trim(), 10));
+    }
+
+    measure() {
+      if (!this.wordmarkImg) return;
+
+      const wordmarkRect = this.wordmarkImg.getBoundingClientRect();
+      if (wordmarkRect.height === 0) return;
+
+      const scale = wordmarkRect.height / this.markGlyphHeight;
+      const size = this.markCanvas * scale;
+
+      this.mark.style.width = `${size}px`;
+      this.mark.style.height = `${size}px`;
+      this.mark.style.left = `${-this.markGlyphX * scale}px`;
+      this.mark.style.top = `${-this.markGlyphY * scale}px`;
+    }
+
+    onResize() {
+      this.measure();
+      this.onScroll();
     }
 
     onScroll() {
