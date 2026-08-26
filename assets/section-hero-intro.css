@@ -1,8 +1,8 @@
 .hero-intro {
   display: block;
   position: relative;
-  height: 180vh;
-  height: 180dvh;
+  height: 160vh;
+  height: 160dvh;
   background-color: rgb(var(--hero-intro-from));
 }
 
@@ -35,18 +35,58 @@
   overflow: hidden;
 }
 
+.hero-intro__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(var(--hero-intro-gold), 0.24) 0%, rgba(var(--hero-intro-gold), 0) 70%);
+  filter: blur(2px);
+  animation: hero-intro-breathe 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes hero-intro-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
 .hero-intro__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 2rem;
+  gap: 0.9rem;
+  max-height: 100%;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  will-change: transform;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-intro__content--corner {
+  align-items: flex-start;
+  text-align: left;
 }
 
 .hero-intro__logo-stage {
   position: relative;
-  width: min(24rem, 78vw);
+  width: min(20rem, 68vw);
   aspect-ratio: 731 / 154;
+  flex-shrink: 0;
 }
 
 .hero-intro__logo-stage > .hero-intro__logo {
@@ -72,8 +112,8 @@
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
   font-weight: var(--font-heading-weight);
-  font-size: 2.6rem;
-  letter-spacing: 0.35rem;
+  font-size: 2.2rem;
+  letter-spacing: 0.3rem;
   text-transform: uppercase;
   color: rgb(var(--hero-intro-text));
 }
@@ -90,12 +130,18 @@
   left: 0;
   opacity: 0;
   pointer-events: none;
-  will-change: opacity;
+  will-change: opacity, transform;
+  transform-origin: 0 0;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-intro__mark--corner {
+  transform: var(--hero-intro-mark-corner-transform);
 }
 
 .hero-intro__tagline {
-  margin: 2rem 0 0;
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 1.3rem;
   letter-spacing: 0.1rem;
   color: rgb(var(--hero-intro-text));
   opacity: 0;
@@ -107,13 +153,59 @@
   opacity: 1;
 }
 
+.hero-intro__icon-stack {
+  position: relative;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex-shrink: 0;
+}
+
+.hero-intro__icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: rgb(var(--hero-intro-gold));
+  fill: none;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.hero-intro__icon circle {
+  fill: rgb(var(--hero-intro-gold));
+  stroke: none;
+}
+
+.hero-intro__fragments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 30rem;
+}
+
+.hero-intro__fragment {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: rgb(var(--hero-intro-text));
+  opacity: 0;
+  will-change: opacity;
+}
+
 @media screen and (min-width: 750px) {
   .hero-intro__logo-stage {
-    width: 30rem;
+    width: 24rem;
   }
 
   .hero-intro__logo--text {
-    font-size: 3.4rem;
+    font-size: 2.8rem;
+  }
+
+  .hero-intro__fragment {
+    font-size: 1.2rem;
   }
 }
 
@@ -125,16 +217,23 @@
   .hero-intro__sticky {
     position: relative;
     height: auto;
-    padding: 8rem 0;
+    padding: 6rem 0;
+  }
+
+  .hero-intro__content {
+    max-height: none;
+    overflow: visible;
   }
 
   .hero-intro__logo,
-  .hero-intro__tagline {
+  .hero-intro__tagline,
+  .hero-intro__fragment {
     transition: none;
     opacity: 1;
   }
 
   .hero-intro__mark {
     opacity: 0;
+    transition: none;
   }
 }

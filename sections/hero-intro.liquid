@@ -12,13 +12,16 @@
     --hero-intro-from: {{ scheme_from.settings.background.red }},{{ scheme_from.settings.background.green }},{{ scheme_from.settings.background.blue }};
     --hero-intro-to: {{ scheme_to.settings.background.red }},{{ scheme_to.settings.background.green }},{{ scheme_to.settings.background.blue }};
     --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
+    --hero-intro-gold: {{ scheme_from.settings.button.red }},{{ scheme_from.settings.button.green }},{{ scheme_from.settings.button.blue }};
   "
 >
   <div class="hero-intro__bg-layer hero-intro__bg-layer--from"></div>
   <div class="hero-intro__bg-layer hero-intro__bg-layer--to" data-hero-intro-bg-to></div>
 
   <div class="hero-intro__sticky">
-    <div class="hero-intro__content">
+    <div class="hero-intro__glow" aria-hidden="true"></div>
+
+    <div class="hero-intro__content" data-hero-intro-content>
       <div class="hero-intro__logo-stage">
         {%- if settings.logo != blank -%}
           {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
@@ -50,6 +53,30 @@
       </div>
 
       <p class="hero-intro__tagline" data-hero-intro-tagline>{{ 'general.intro_animation.tagline' | t }}</p>
+
+      <div class="hero-intro__icon-stack" aria-hidden="true">
+        <svg class="hero-intro__icon" data-hero-intro-icon="flame" viewBox="0 0 24 24" focusable="false">
+          <path d="M12 3C9 8 7 11.5 7 14.5C7 17.5 9.5 20 12 20C14.5 20 17 17.5 17 14.5C17 11.5 15 8 12 3Z"/>
+        </svg>
+        <svg class="hero-intro__icon" data-hero-intro-icon="constellation" viewBox="0 0 24 24" focusable="false">
+          <path d="M4 18L9 9L14 13L20 6"/>
+          <circle cx="4" cy="18" r="1.2"/>
+          <circle cx="9" cy="9" r="1.2"/>
+          <circle cx="14" cy="13" r="1.2"/>
+          <circle cx="20" cy="6" r="1.2"/>
+        </svg>
+        <svg class="hero-intro__icon" data-hero-intro-icon="fusion" viewBox="0 0 24 24" focusable="false">
+          <path d="M10 7C8 10 7 12.5 7 14.3C7 16.6 8.6 18.3 10.7 18.3C12.8 18.3 14.3 16.6 14.3 14.3C14.3 12.5 13.3 10 10 7Z"/>
+          <path d="M17.5,3.8 Q17.5,7 20.7,7 Q17.5,7 17.5,10.2 Q17.5,7 14.3,7 Q17.5,7 17.5,3.8 Z"/>
+        </svg>
+      </div>
+
+      <div class="hero-intro__fragments">
+        {%- for i in (1..7) -%}
+          {%- assign fragment_key = 'general.hero_narrative.fragment_' | append: i -%}
+          <p class="hero-intro__fragment" data-hero-intro-fragment="{{ forloop.index0 }}">{{ fragment_key | t }}</p>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </hero-intro-scroll>
@@ -57,31 +84,37 @@
 {% javascript %}
   class HeroIntroScroll extends HTMLElement {
     connectedCallback() {
+      this.sticky = this.querySelector('.hero-intro__sticky');
+      this.content = this.querySelector('[data-hero-intro-content]');
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
       this.wordmarkImg = this.querySelector('.hero-intro__logo-img');
       this.mark = this.querySelector('[data-hero-intro-mark]');
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
+      this.fragments = Array.from(this.querySelectorAll('[data-hero-intro-fragment]'));
+      this.icons = {
+        flame: this.querySelector('[data-hero-intro-icon="flame"]'),
+        constellation: this.querySelector('[data-hero-intro-icon="constellation"]'),
+        fusion: this.querySelector('[data-hero-intro-icon="fusion"]'),
+      };
       this.ticking = false;
+      this.cornered = false;
 
       this.markGlyphX = 735;
       this.markGlyphY = 535;
       this.markGlyphHeight = 692;
       this.markCanvas = 2000;
-
-      this.phases = {
-        bg: [0, 0.5],
-        morph: [0.5, 1],
-      };
+      this.cornerScale = 0.4;
+      this.cornerPadding = 28;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         this.bgTo.style.opacity = '1';
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
+        this.fragments.forEach((fragment) => (fragment.style.opacity = '1'));
+        this.icons.fusion.style.opacity = '1';
         return;
       }
-
-      this.mark.style.transition = 'none';
 
       this.measure();
 
@@ -110,7 +143,7 @@
     }
 
     measure() {
-      this.scrollBudget = window.innerHeight;
+      this.scrollBudget = window.innerHeight * 0.6;
 
       if (!this.wordmarkImg) return;
 
@@ -124,6 +157,22 @@
       this.mark.style.height = `${size}px`;
       this.mark.style.left = `${-this.markGlyphX * scale}px`;
       this.mark.style.top = `${-this.markGlyphY * scale}px`;
+
+      const markRect = this.mark.getBoundingClientRect();
+      const stickyRect = this.sticky.getBoundingClientRect();
+
+      const targetX = stickyRect.left + this.cornerPadding;
+      const targetY = stickyRect.top + this.cornerPadding;
+      const glyphX = markRect.left + this.markGlyphX * scale * this.cornerScale;
+      const glyphY = markRect.top + this.markGlyphY * scale * this.cornerScale;
+
+      const translateX = targetX - glyphX;
+      const translateY = targetY - glyphY;
+
+      this.mark.style.setProperty(
+        '--hero-intro-mark-corner-transform',
+        `translate(${translateX}px, ${translateY}px) scale(${this.cornerScale})`
+      );
     }
 
     onResize() {
@@ -150,28 +199,24 @@
       return t * t * (3 - 2 * t);
     }
 
-    phaseProgress(progress, phase) {
-      return this.smoothstep(this.remap(progress, phase[0], phase[1]));
-    }
-
     updateProgress() {
       const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      const budget = this.scrollBudget || window.innerHeight;
+      const budget = this.scrollBudget || window.innerHeight * 0.6;
       const progress = Math.min(1, Math.max(0, scrollY / budget));
 
       this.updateBackground(progress);
       this.updateTagline(progress);
       this.updateMorph(progress);
+      this.updateFragments(progress);
+      this.updateCorner(progress);
     }
 
     updateBackground(progress) {
-      const eased = this.phaseProgress(progress, this.phases.bg);
-      this.bgTo.style.opacity = String(eased);
+      this.bgTo.style.opacity = String(this.smoothstep(progress));
     }
 
     updateTagline(progress) {
-      const [start, end] = this.phases.bg;
-      const fadeOutEnd = start + (end - start) * 0.5;
+      const fadeOutEnd = 0.3;
 
       if (progress > 0.001) {
         if (!this.taglineManual) {
@@ -179,7 +224,7 @@
           this.tagline.style.transition = 'none';
         }
 
-        const fadeEased = this.smoothstep(this.remap(progress, start, fadeOutEnd));
+        const fadeEased = this.smoothstep(this.remap(progress, 0, fadeOutEnd));
         this.tagline.style.opacity = String(1 - fadeEased);
       } else if (this.taglineManual) {
         this.taglineManual = false;
@@ -189,7 +234,7 @@
     }
 
     updateMorph(progress) {
-      const eased = this.phaseProgress(progress, this.phases.morph);
+      const eased = this.smoothstep(progress);
 
       if (progress > 0.001) {
         if (!this.logoManual) {
@@ -205,6 +250,48 @@
       }
 
       this.mark.style.opacity = String(eased);
+    }
+
+    updateFragments(progress) {
+      const count = this.fragments.length;
+      if (count === 0) return;
+
+      const halfWidth = 0.09;
+
+      this.fragments.forEach((fragment, index) => {
+        const center = (index + 0.5) / count;
+        const opacity = this.smoothstep(this.remap(progress, center - halfWidth, center + halfWidth));
+        fragment.style.opacity = String(opacity);
+      });
+
+      const boundary23 = 3 / count;
+      const boundary56 = 6 / count;
+      const transitionWidth = (1 / count) * 0.9;
+
+      const crossfade23 = this.smoothstep(
+        this.remap(progress, boundary23 - transitionWidth / 2, boundary23 + transitionWidth / 2)
+      );
+      const crossfade56 = this.smoothstep(
+        this.remap(progress, boundary56 - transitionWidth / 2, boundary56 + transitionWidth / 2)
+      );
+
+      this.icons.flame.style.opacity = String(1 - crossfade23);
+      this.icons.constellation.style.opacity = String(crossfade23 * (1 - crossfade56));
+      this.icons.fusion.style.opacity = String(crossfade56);
+    }
+
+    updateCorner(progress) {
+      const shouldCorner = progress >= 0.999;
+
+      if (shouldCorner && !this.cornered) {
+        this.cornered = true;
+        this.mark.classList.add('hero-intro__mark--corner');
+        this.content.classList.add('hero-intro__content--corner');
+      } else if (!shouldCorner && this.cornered) {
+        this.cornered = false;
+        this.mark.classList.remove('hero-intro__mark--corner');
+        this.content.classList.remove('hero-intro__content--corner');
+      }
     }
   }
 
