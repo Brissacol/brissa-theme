@@ -1,0 +1,145 @@
+<div id="IntroOverlay" class="intro-overlay" aria-hidden="true">
+  <div class="intro-overlay__inner">
+    {%- if settings.logo != blank -%}
+      {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+      <div class="intro-overlay__logo intro-overlay__logo--image">
+        {{ settings.logo | image_url: width: 300 | image_tag: loading: 'eager', widths: '150,200,300', alt: logo_alt }}
+      </div>
+    {%- else -%}
+      <p class="intro-overlay__logo intro-overlay__logo--text">{{ shop.name }}</p>
+    {%- endif -%}
+    <p class="intro-overlay__tagline">{{ 'general.intro_animation.tagline' | t }}</p>
+  </div>
+</div>
+
+{% style %}
+  body.intro-active {
+    overflow: hidden;
+  }
+
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--color-background));
+    opacity: 1;
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .intro-overlay__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+  }
+
+  .intro-overlay__logo {
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .intro-overlay__logo--text {
+    margin: 0;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    font-size: 3.2rem;
+    letter-spacing: 0.3rem;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground));
+  }
+
+  .intro-overlay__logo--image img {
+    display: block;
+    max-width: 14rem;
+    height: auto;
+  }
+
+  .intro-overlay__tagline {
+    margin: 1.2rem 0 0;
+    font-size: 1.4rem;
+    letter-spacing: 0.12rem;
+    color: rgb(var(--color-foreground));
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .intro-overlay--logo-in .intro-overlay__logo {
+    opacity: 1;
+  }
+
+  .intro-overlay--tagline-in .intro-overlay__tagline {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .intro-overlay--hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .shopify-section-group-header-group,
+  #MainContent {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body.intro-active .shopify-section-group-header-group,
+  body.intro-active #MainContent {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-overlay,
+    .intro-overlay__logo,
+    .intro-overlay__tagline,
+    .shopify-section-group-header-group,
+    #MainContent {
+      transition: none !important;
+    }
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    var overlay = document.getElementById('IntroOverlay');
+    if (!overlay) return;
+
+    var alreadySeen = window.sessionStorage.getItem('brissaIntroSeen') === 'true';
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (alreadySeen || prefersReducedMotion) {
+      overlay.remove();
+      document.body.classList.remove('intro-active');
+      return;
+    }
+
+    window.sessionStorage.setItem('brissaIntroSeen', 'true');
+
+    requestAnimationFrame(function () {
+      overlay.classList.add('intro-overlay--logo-in');
+    });
+
+    window.setTimeout(function () {
+      overlay.classList.add('intro-overlay--tagline-in');
+    }, 500);
+
+    window.setTimeout(function () {
+      overlay.classList.add('intro-overlay--hide');
+      document.body.classList.remove('intro-active');
+    }, 1600);
+
+    overlay.addEventListener('transitionend', function (event) {
+      if (event.target === overlay && overlay.classList.contains('intro-overlay--hide')) {
+        overlay.remove();
+      }
+    });
+  })();
+</script>
