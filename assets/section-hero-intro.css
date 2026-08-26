@@ -146,6 +146,15 @@
   opacity: 1;
 }
 
+.hero-intro__narrative {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  opacity: 0;
+  will-change: opacity;
+}
+
 .hero-intro__icon-stack {
   position: relative;
   width: 3.2rem;
@@ -200,24 +209,25 @@
 }
 
 .hero-intro__fragments {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  position: relative;
+  flex: 1;
+  min-height: 10rem;
   text-align: left;
 }
 
 .hero-intro__fragment {
+  position: absolute;
+  inset: 0;
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.4;
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
   color: rgb(var(--hero-intro-text));
   opacity: 0;
   will-change: opacity, transform;
-}
-
-.hero-intro__fragment--active {
-  font-weight: 500;
-  font-size: 1.12rem;
 }
 
 @media screen and (min-width: 750px) {
@@ -234,12 +244,12 @@
     height: 3.6rem;
   }
 
-  .hero-intro__fragment {
-    font-size: 1.2rem;
+  .hero-intro__fragments {
+    min-height: 8rem;
   }
 
-  .hero-intro__fragment--active {
-    font-size: 1.3rem;
+  .hero-intro__fragment {
+    font-size: 1.9rem;
   }
 }
 
@@ -259,12 +269,23 @@
     overflow: visible;
   }
 
+  .hero-intro__narrative {
+    opacity: 1;
+  }
+
   .hero-intro__logo,
-  .hero-intro__tagline,
-  .hero-intro__fragment {
+  .hero-intro__tagline {
     transition: none;
     opacity: 1;
+  }
+
+  .hero-intro__fragment {
+    transition: none;
     transform: none;
+  }
+
+  .hero-intro__fragment:last-child {
+    opacity: 1;
   }
 
   .hero-intro__mark {
