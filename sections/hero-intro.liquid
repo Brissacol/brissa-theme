@@ -58,6 +58,10 @@
       window.addEventListener('scroll', this.onScrollHandler, { passive: true });
       window.addEventListener('resize', this.onScrollHandler);
 
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', this.onScrollHandler);
+      }
+
       this.updateProgress();
 
       requestAnimationFrame(() => this.logo.classList.add('hero-intro__logo--visible'));
@@ -67,6 +71,10 @@
     disconnectedCallback() {
       window.removeEventListener('scroll', this.onScrollHandler);
       window.removeEventListener('resize', this.onScrollHandler);
+
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', this.onScrollHandler);
+      }
     }
 
     readColor(propertyName) {
