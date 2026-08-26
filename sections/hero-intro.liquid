@@ -71,11 +71,17 @@
         </svg>
       </div>
 
-      <div class="hero-intro__fragments">
-        {%- for i in (1..7) -%}
-          {%- assign fragment_key = 'general.hero_narrative.fragment_' | append: i -%}
-          <p class="hero-intro__fragment" data-hero-intro-fragment="{{ forloop.index0 }}">{{ fragment_key | t }}</p>
-        {%- endfor -%}
+      <div class="hero-intro__narrative-row">
+        <div class="hero-intro__guide" aria-hidden="true">
+          <div class="hero-intro__guide-marker" data-hero-intro-guide-marker></div>
+        </div>
+
+        <div class="hero-intro__fragments">
+          {%- for i in (1..7) -%}
+            {%- assign fragment_key = 'general.hero_narrative.fragment_' | append: i -%}
+            <p class="hero-intro__fragment" data-hero-intro-fragment="{{ forloop.index0 }}">{{ fragment_key | t }}</p>
+          {%- endfor -%}
+        </div>
       </div>
     </div>
   </div>
@@ -92,6 +98,7 @@
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.fragments = Array.from(this.querySelectorAll('[data-hero-intro-fragment]'));
+      this.guideMarker = this.querySelector('[data-hero-intro-guide-marker]');
       this.icons = {
         flame: this.querySelector('[data-hero-intro-icon="flame"]'),
         constellation: this.querySelector('[data-hero-intro-icon="constellation"]'),
@@ -113,6 +120,7 @@
         this.tagline.classList.add('hero-intro__tagline--visible');
         this.fragments.forEach((fragment) => (fragment.style.opacity = '1'));
         this.icons.fusion.style.opacity = '1';
+        if (this.guideMarker) this.guideMarker.style.top = '100%';
         return;
       }
 
@@ -158,21 +166,26 @@
       this.mark.style.left = `${-this.markGlyphX * scale}px`;
       this.mark.style.top = `${-this.markGlyphY * scale}px`;
 
+      const wasCornered = this.mark.classList.contains('hero-intro__mark--corner');
+      if (wasCornered) this.mark.classList.remove('hero-intro__mark--corner');
+
       const markRect = this.mark.getBoundingClientRect();
       const stickyRect = this.sticky.getBoundingClientRect();
 
-      const targetX = stickyRect.left + this.cornerPadding;
-      const targetY = stickyRect.top + this.cornerPadding;
-      const glyphX = markRect.left + this.markGlyphX * scale * this.cornerScale;
-      const glyphY = markRect.top + this.markGlyphY * scale * this.cornerScale;
+      const relativeMarkLeft = markRect.left - stickyRect.left;
+      const relativeMarkTop = markRect.top - stickyRect.top;
+      const glyphX = relativeMarkLeft + this.markGlyphX * scale * this.cornerScale;
+      const glyphY = relativeMarkTop + this.markGlyphY * scale * this.cornerScale;
 
-      const translateX = targetX - glyphX;
-      const translateY = targetY - glyphY;
+      const translateX = this.cornerPadding - glyphX;
+      const translateY = this.cornerPadding - glyphY;
 
       this.mark.style.setProperty(
         '--hero-intro-mark-corner-transform',
         `translate(${translateX}px, ${translateY}px) scale(${this.cornerScale})`
       );
+
+      if (wasCornered) this.mark.classList.add('hero-intro__mark--corner');
     }
 
     onResize() {
@@ -257,12 +270,32 @@
       if (count === 0) return;
 
       const halfWidth = 0.09;
+      const dimOpacity = 0.55;
+
+      const opacities = this.fragments.map((fragment, index) => {
+        const center = (index + 0.5) / count;
+        return this.smoothstep(this.remap(progress, center - halfWidth, center + halfWidth));
+      });
+
+      let activeIndex = -1;
+      opacities.forEach((opacity, index) => {
+        if (opacity > 0.5) activeIndex = index;
+      });
 
       this.fragments.forEach((fragment, index) => {
-        const center = (index + 0.5) / count;
-        const opacity = this.smoothstep(this.remap(progress, center - halfWidth, center + halfWidth));
-        fragment.style.opacity = String(opacity);
+        const ownOpacity = opacities[index];
+        const isActive = index === activeIndex;
+        const finalOpacity = isActive ? ownOpacity : ownOpacity * dimOpacity;
+        const offsetY = (1 - ownOpacity) * 14;
+
+        fragment.style.opacity = String(finalOpacity);
+        fragment.style.transform = `translateY(${offsetY}px)`;
+        fragment.classList.toggle('hero-intro__fragment--active', isActive);
       });
+
+      if (this.guideMarker) {
+        this.guideMarker.style.top = `${progress * 100}%`;
+      }
 
       const boundary23 = 3 / count;
       const boundary56 = 6 / count;
@@ -286,11 +319,9 @@
       if (shouldCorner && !this.cornered) {
         this.cornered = true;
         this.mark.classList.add('hero-intro__mark--corner');
-        this.content.classList.add('hero-intro__content--corner');
       } else if (!shouldCorner && this.cornered) {
         this.cornered = false;
         this.mark.classList.remove('hero-intro__mark--corner');
-        this.content.classList.remove('hero-intro__content--corner');
       }
     }
   }
