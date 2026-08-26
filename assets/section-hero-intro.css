@@ -1,8 +1,9 @@
 .hero-intro {
   display: block;
   position: relative;
-  height: 160vh;
-  height: 160dvh;
+  z-index: 0;
+  height: 130vh;
+  height: 130dvh;
   background-color: rgb(var(--hero-intro-from));
 }
 
