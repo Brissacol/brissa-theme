@@ -1,0 +1,117 @@
+{{ 'section-hero-intro.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign scheme_from = settings.color_schemes['scheme-3']
+  assign scheme_to = settings.color_schemes['scheme-1']
+-%}
+
+<hero-intro-scroll
+  class="hero-intro"
+  id="HeroIntro-{{ section.id }}"
+  style="
+    --hero-intro-from: {{ scheme_from.settings.background.red }},{{ scheme_from.settings.background.green }},{{ scheme_from.settings.background.blue }};
+    --hero-intro-to: {{ scheme_to.settings.background.red }},{{ scheme_to.settings.background.green }},{{ scheme_to.settings.background.blue }};
+    --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
+  "
+>
+  <div class="hero-intro__sticky">
+    <div class="hero-intro__content">
+      {%- if settings.logo != blank -%}
+        {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+        <div class="hero-intro__logo hero-intro__logo--image" data-hero-intro-logo>
+          {{
+            settings.logo
+            | image_url: width: 600
+            | image_tag:
+              loading: 'eager',
+              widths: '200,300,400,600',
+              alt: logo_alt,
+              sizes: '(min-width: 750px) 26rem, 22rem'
+          }}
+        </div>
+      {%- else -%}
+        <p class="hero-intro__logo hero-intro__logo--text" data-hero-intro-logo>{{ shop.name }}</p>
+      {%- endif -%}
+
+      <p class="hero-intro__tagline" data-hero-intro-tagline>{{ 'general.intro_animation.tagline' | t }}</p>
+    </div>
+  </div>
+</hero-intro-scroll>
+
+{% javascript %}
+  class HeroIntroScroll extends HTMLElement {
+    connectedCallback() {
+      this.logo = this.querySelector('[data-hero-intro-logo]');
+      this.tagline = this.querySelector('[data-hero-intro-tagline]');
+      this.fromColor = this.readColor('--hero-intro-from');
+      this.toColor = this.readColor('--hero-intro-to');
+      this.ticking = false;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        this.style.backgroundColor = `rgb(${this.toColor.join(',')})`;
+        this.logo.classList.add('hero-intro__logo--visible');
+        this.tagline.classList.add('hero-intro__tagline--visible');
+        return;
+      }
+
+      this.onScrollHandler = this.onScroll.bind(this);
+      window.addEventListener('scroll', this.onScrollHandler, { passive: true });
+      window.addEventListener('resize', this.onScrollHandler);
+
+      this.updateProgress();
+
+      requestAnimationFrame(() => this.logo.classList.add('hero-intro__logo--visible'));
+      window.setTimeout(() => this.tagline.classList.add('hero-intro__tagline--visible'), 500);
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('scroll', this.onScrollHandler);
+      window.removeEventListener('resize', this.onScrollHandler);
+    }
+
+    readColor(propertyName) {
+      return getComputedStyle(this)
+        .getPropertyValue(propertyName)
+        .split(',')
+        .map((value) => parseInt(value.trim(), 10));
+    }
+
+    onScroll() {
+      if (this.ticking) return;
+      this.ticking = true;
+
+      requestAnimationFrame(() => {
+        this.updateProgress();
+        this.ticking = false;
+      });
+    }
+
+    updateProgress() {
+      const rect = this.getBoundingClientRect();
+      const scrollDistance = this.offsetHeight - window.innerHeight;
+      const rawProgress = scrollDistance > 0 ? -rect.top / scrollDistance : 0;
+      const progress = Math.min(1, Math.max(0, rawProgress));
+      const eased = progress * progress * (3 - 2 * progress);
+
+      const r = Math.round(this.fromColor[0] + (this.toColor[0] - this.fromColor[0]) * eased);
+      const g = Math.round(this.fromColor[1] + (this.toColor[1] - this.fromColor[1]) * eased);
+      const b = Math.round(this.fromColor[2] + (this.toColor[2] - this.fromColor[2]) * eased);
+
+      this.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+  }
+
+  customElements.define('hero-intro-scroll', HeroIntroScroll);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Hero intro",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Hero intro"
+    }
+  ]
+}
+{% endschema %}
