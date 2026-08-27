@@ -138,6 +138,7 @@
     measure() {
       this.scrollBudget = window.innerHeight * 0.6;
       this.framesScrollDistance = window.innerHeight * 3.4;
+      this.frameContainerFadeDistance = window.innerHeight * 0.25;
       this.isMobile = window.matchMedia('(max-width: 749px)').matches;
       this.measureFrameButton();
     }
@@ -209,8 +210,6 @@
     }
 
     updateFade(progress) {
-      const fadeOutEnd = 0.6;
-
       if (progress > 0.001) {
         if (!this.faded) {
           this.faded = true;
@@ -219,7 +218,7 @@
           this.scrollHint.style.transition = 'none';
         }
 
-        const eased = this.smoothstep(this.remap(progress, 0, fadeOutEnd));
+        const eased = this.smoothstep(progress);
         const opacity = String(1 - eased);
         this.logo.style.opacity = opacity;
         this.tagline.style.opacity = opacity;
@@ -235,14 +234,15 @@
       }
     }
 
-    updateFrames(scrollY, budget) {
-      const showFrames = scrollY >= budget;
-      this.framesContainer.style.opacity = showFrames ? '1' : '0';
+    updateFrames(scrollY, framesStart) {
+      const fadeDistance = this.frameContainerFadeDistance || window.innerHeight * 0.25;
+      const containerOpacity = this.smoothstep(this.remap(scrollY, framesStart, framesStart + fadeDistance));
+      this.framesContainer.style.opacity = String(containerOpacity);
 
-      if (!showFrames) return;
+      if (containerOpacity <= 0) return;
 
       const distance = this.framesScrollDistance || window.innerHeight * 3.4;
-      const framesProgress = this.remap(scrollY, budget, budget + distance);
+      const framesProgress = this.remap(scrollY, framesStart, framesStart + distance);
       const transitions = this.frames.length - 1;
       if (transitions <= 0) return;
 
