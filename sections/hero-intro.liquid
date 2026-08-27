@@ -48,6 +48,8 @@
     </div>
 
     <div class="hero-intro__frames" data-hero-intro-frames>
+      <img class="hero-intro__frames-bg" src="{{ 'fondo celular.jpg' | asset_url }}" alt="" loading="lazy">
+
       {%- for i in (1..10) -%}
         {%- assign frame_number = i | prepend: '00' | slice: -2, 2 -%}
         <img
@@ -148,7 +150,7 @@
 
       const imageWidth = 1080;
       const imageHeight = 1350;
-      const scale = Math.max(containerRect.width / imageWidth, containerRect.height / imageHeight);
+      const scale = Math.min(containerRect.width / imageWidth, containerRect.height / imageHeight);
       const displayedWidth = imageWidth * scale;
       const displayedHeight = imageHeight * scale;
       const offsetX = (containerRect.width - displayedWidth) / 2;
