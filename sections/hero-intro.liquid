@@ -46,34 +46,6 @@
         </svg>
       </div>
     </div>
-
-    <div class="hero-intro__frames" data-hero-intro-frames>
-      <img class="hero-intro__frames-bg" src="{{ 'fondo celular.jpg' | asset_url }}" alt="" loading="lazy">
-
-      <div class="hero-intro__frames-inner" data-hero-intro-frames-inner>
-        {%- for i in (1..10) -%}
-          {%- assign frame_number = i | prepend: '00' | slice: -2, 2 -%}
-          <img
-            class="hero-intro__frame"
-            data-hero-intro-frame
-            src="{{ 'Frame ' | append: frame_number | append: '.jpg' | asset_url }}"
-            alt=""
-            loading="lazy"
-            width="1080"
-            height="1350"
-          >
-        {%- endfor -%}
-
-        <a
-          href="{{ routes.all_products_collection_url }}"
-          class="hero-intro__frame-button"
-          data-hero-intro-frame-button
-          aria-label="{{ 'general.intro_animation.choose_button' | t }}"
-        >
-          <img src="{{ 'elegir.png' | asset_url }}" alt="" loading="lazy" width="2000" height="2000">
-        </a>
-      </div>
-    </div>
   </div>
 </hero-intro-scroll>
 
@@ -84,10 +56,6 @@
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.scrollHint = this.querySelector('[data-hero-intro-scroll-hint]');
-      this.framesContainer = this.querySelector('[data-hero-intro-frames]');
-      this.framesInner = this.querySelector('[data-hero-intro-frames-inner]');
-      this.frames = Array.from(this.querySelectorAll('[data-hero-intro-frame]'));
-      this.frameButton = this.querySelector('[data-hero-intro-frame-button]');
       this.ticking = false;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -95,19 +63,6 @@
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
         this.scrollHint.classList.add('hero-intro__scroll-hint--visible');
-
-        if (this.framesContainer && window.matchMedia('(max-width: 749px)').matches) {
-          this.logo.style.display = 'none';
-          this.tagline.style.display = 'none';
-          this.scrollHint.style.display = 'none';
-          this.framesContainer.style.opacity = '1';
-          this.frames.forEach((frame) => (frame.style.opacity = '1'));
-          if (this.frameButton) {
-            this.frameButton.style.opacity = '1';
-            this.frameButton.style.pointerEvents = 'auto';
-          }
-        }
-
         return;
       }
 
@@ -140,35 +95,6 @@
 
     measure() {
       this.scrollBudget = window.innerHeight * 0.6;
-      this.framesScrollDistance = window.innerHeight * 3.4;
-      this.frameContainerFadeDistance = window.innerHeight * 0.25;
-      this.isMobile = window.matchMedia('(max-width: 749px)').matches;
-      this.measureFrameButton();
-    }
-
-    measureFrameButton() {
-      if (!this.framesInner || !this.frameButton) return;
-
-      const containerRect = this.framesInner.getBoundingClientRect();
-      if (containerRect.width === 0 || containerRect.height === 0) return;
-
-      const imageWidth = 1080;
-      const imageHeight = 1350;
-      const scale = Math.min(containerRect.width / imageWidth, containerRect.height / imageHeight);
-      const displayedWidth = imageWidth * scale;
-      const displayedHeight = imageHeight * scale;
-      const offsetX = (containerRect.width - displayedWidth) / 2;
-      const offsetY = (containerRect.height - displayedHeight) / 2;
-
-      const left = offsetX + 0.284 * displayedWidth;
-      const right = offsetX + 0.716 * displayedWidth;
-      const top = offsetY + 0.764 * displayedHeight;
-      const bottom = offsetY + 0.835 * displayedHeight;
-
-      this.frameButton.style.left = `${left}px`;
-      this.frameButton.style.width = `${right - left}px`;
-      this.frameButton.style.top = `${top}px`;
-      this.frameButton.style.height = `${bottom - top}px`;
     }
 
     onResize() {
@@ -202,10 +128,6 @@
 
       this.updateBackground(progress);
       this.updateFade(progress);
-
-      if (this.isMobile && this.framesContainer && this.frames.length > 1) {
-        this.updateFrames(scrollY, budget);
-      }
     }
 
     updateBackground(progress) {
@@ -234,33 +156,6 @@
         this.logo.style.opacity = '';
         this.tagline.style.opacity = '';
         this.scrollHint.style.opacity = '';
-      }
-    }
-
-    updateFrames(scrollY, framesStart) {
-      const fadeDistance = this.frameContainerFadeDistance || window.innerHeight * 0.25;
-      const containerOpacity = this.smoothstep(this.remap(scrollY, framesStart, framesStart + fadeDistance));
-      this.framesContainer.style.opacity = String(containerOpacity);
-
-      if (containerOpacity <= 0) return;
-
-      const distance = this.framesScrollDistance || window.innerHeight * 3.4;
-      const framesProgress = this.remap(scrollY, framesStart, framesStart + distance);
-      const transitions = this.frames.length - 1;
-      if (transitions <= 0) return;
-
-      const halfWidth = 0.05;
-      const lastCenter = 1 - halfWidth;
-
-      for (let i = 1; i < this.frames.length; i += 1) {
-        const center = (i / transitions) * lastCenter;
-        const opacity = this.smoothstep(this.remap(framesProgress, center - halfWidth, center + halfWidth));
-        this.frames[i].style.opacity = String(opacity);
-
-        if (i === this.frames.length - 1 && this.frameButton) {
-          this.frameButton.style.opacity = String(opacity);
-          this.frameButton.style.pointerEvents = opacity > 0.9 ? 'auto' : 'none';
-        }
       }
     }
   }
