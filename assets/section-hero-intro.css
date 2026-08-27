@@ -132,13 +132,11 @@
 .hero-intro__frames {
   display: none;
   position: absolute;
-  top: var(--header-height, 0px);
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   overflow: hidden;
   z-index: 1;
   opacity: 0;
+  background-color: rgb(var(--hero-intro-to));
   will-change: opacity;
 }
 
@@ -149,6 +147,14 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+}
+
+.hero-intro__frames-inner {
+  position: absolute;
+  top: var(--header-height, 0px);
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .hero-intro__frame {

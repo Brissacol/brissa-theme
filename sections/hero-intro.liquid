@@ -50,27 +50,29 @@
     <div class="hero-intro__frames" data-hero-intro-frames>
       <img class="hero-intro__frames-bg" src="{{ 'fondo celular.jpg' | asset_url }}" alt="" loading="lazy">
 
-      {%- for i in (1..10) -%}
-        {%- assign frame_number = i | prepend: '00' | slice: -2, 2 -%}
-        <img
-          class="hero-intro__frame"
-          data-hero-intro-frame
-          src="{{ 'Frame ' | append: frame_number | append: '.jpg' | asset_url }}"
-          alt=""
-          loading="lazy"
-          width="1080"
-          height="1350"
-        >
-      {%- endfor -%}
+      <div class="hero-intro__frames-inner" data-hero-intro-frames-inner>
+        {%- for i in (1..10) -%}
+          {%- assign frame_number = i | prepend: '00' | slice: -2, 2 -%}
+          <img
+            class="hero-intro__frame"
+            data-hero-intro-frame
+            src="{{ 'Frame ' | append: frame_number | append: '.jpg' | asset_url }}"
+            alt=""
+            loading="lazy"
+            width="1080"
+            height="1350"
+          >
+        {%- endfor -%}
 
-      <a
-        href="{{ routes.all_products_collection_url }}"
-        class="hero-intro__frame-button"
-        data-hero-intro-frame-button
-        aria-label="{{ 'general.intro_animation.choose_button' | t }}"
-      >
-        <img src="{{ 'elegir.png' | asset_url }}" alt="" loading="lazy" width="2000" height="2000">
-      </a>
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="hero-intro__frame-button"
+          data-hero-intro-frame-button
+          aria-label="{{ 'general.intro_animation.choose_button' | t }}"
+        >
+          <img src="{{ 'elegir.png' | asset_url }}" alt="" loading="lazy" width="2000" height="2000">
+        </a>
+      </div>
     </div>
   </div>
 </hero-intro-scroll>
@@ -83,6 +85,7 @@
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.scrollHint = this.querySelector('[data-hero-intro-scroll-hint]');
       this.framesContainer = this.querySelector('[data-hero-intro-frames]');
+      this.framesInner = this.querySelector('[data-hero-intro-frames-inner]');
       this.frames = Array.from(this.querySelectorAll('[data-hero-intro-frame]'));
       this.frameButton = this.querySelector('[data-hero-intro-frame-button]');
       this.ticking = false;
@@ -144,9 +147,9 @@
     }
 
     measureFrameButton() {
-      if (!this.framesContainer || !this.frameButton) return;
+      if (!this.framesInner || !this.frameButton) return;
 
-      const containerRect = this.framesContainer.getBoundingClientRect();
+      const containerRect = this.framesInner.getBoundingClientRect();
       if (containerRect.width === 0 || containerRect.height === 0) return;
 
       const imageWidth = 1080;
@@ -247,9 +250,10 @@
       if (transitions <= 0) return;
 
       const halfWidth = 0.05;
+      const lastCenter = 1 - halfWidth;
 
       for (let i = 1; i < this.frames.length; i += 1) {
-        const center = i / transitions;
+        const center = (i / transitions) * lastCenter;
         const opacity = this.smoothstep(this.remap(framesProgress, center - halfWidth, center + halfWidth));
         this.frames[i].style.opacity = String(opacity);
 
