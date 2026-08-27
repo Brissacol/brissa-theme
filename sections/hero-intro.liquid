@@ -2,7 +2,6 @@
 
 {%- liquid
   assign scheme_from = settings.color_schemes['scheme-3']
-  assign scheme_to = settings.color_schemes['scheme-1']
 -%}
 
 <hero-intro-scroll
@@ -10,13 +9,11 @@
   id="HeroIntro-{{ section.id }}"
   style="
     --hero-intro-from: {{ scheme_from.settings.background.red }},{{ scheme_from.settings.background.green }},{{ scheme_from.settings.background.blue }};
-    --hero-intro-to: {{ scheme_to.settings.background.red }},{{ scheme_to.settings.background.green }},{{ scheme_to.settings.background.blue }};
     --hero-intro-text: {{ scheme_from.settings.text.red }},{{ scheme_from.settings.text.green }},{{ scheme_from.settings.text.blue }};
     --hero-intro-gold: {{ scheme_from.settings.button.red }},{{ scheme_from.settings.button.green }},{{ scheme_from.settings.button.blue }};
   "
 >
-  <div class="hero-intro__bg-layer hero-intro__bg-layer--from"></div>
-  <div class="hero-intro__bg-layer hero-intro__bg-layer--to" data-hero-intro-bg-to></div>
+  <div class="hero-intro__bg-overlay" data-hero-intro-bg-overlay></div>
 
   <div class="hero-intro__sticky">
     <div class="hero-intro__content">
@@ -53,13 +50,13 @@
   class HeroIntroScroll extends HTMLElement {
     connectedCallback() {
       this.logo = this.querySelector('[data-hero-intro-wordmark]');
-      this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
+      this.bgOverlay = this.querySelector('[data-hero-intro-bg-overlay]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.scrollHint = this.querySelector('[data-hero-intro-scroll-hint]');
       this.ticking = false;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        this.bgTo.style.opacity = '1';
+        this.bgOverlay.style.opacity = '0';
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
         this.scrollHint.classList.add('hero-intro__scroll-hint--visible');
@@ -135,7 +132,7 @@
     }
 
     updateBackground(progress) {
-      this.bgTo.style.opacity = String(this.smoothstep(progress));
+      this.bgOverlay.style.opacity = String(1 - this.smoothstep(progress));
     }
 
     updateFade(progress) {

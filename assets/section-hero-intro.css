@@ -4,24 +4,14 @@
   z-index: 0;
   height: 130vh;
   height: 130dvh;
-  background-color: rgb(var(--hero-intro-from));
 }
 
-.hero-intro__bg-layer {
+.hero-intro__bg-overlay {
   position: absolute;
   inset: 0;
   z-index: -1;
-  will-change: opacity;
-}
-
-.hero-intro__bg-layer--from {
   background-color: rgb(var(--hero-intro-from));
-  opacity: 1;
-}
-
-.hero-intro__bg-layer--to {
-  background-color: rgb(var(--hero-intro-to));
-  opacity: 0;
+  will-change: opacity;
 }
 
 .hero-intro__sticky {
