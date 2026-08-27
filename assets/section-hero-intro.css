@@ -129,6 +129,49 @@
   }
 }
 
+.hero-intro__frames {
+  display: none;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100%, 26rem);
+  aspect-ratio: 1080 / 1350;
+  z-index: 1;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.hero-intro__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.hero-intro__frame:first-child {
+  opacity: 1;
+}
+
+.hero-intro__frame-button {
+  position: absolute;
+  left: 28.4%;
+  width: 43.2%;
+  top: 76.4%;
+  height: 7.1%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.hero-intro__frame-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @media screen and (min-width: 750px) {
   .hero-intro__logo--text {
     font-size: 3.4rem;
@@ -145,6 +188,17 @@
   .hero-intro__scroll-hint-arrow {
     width: 2rem;
     height: 2rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .hero-intro {
+    height: 470vh;
+    height: 470dvh;
+  }
+
+  .hero-intro__frames {
+    display: block;
   }
 }
 

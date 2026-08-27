@@ -46,6 +46,30 @@
         </svg>
       </div>
     </div>
+
+    <div class="hero-intro__frames" data-hero-intro-frames>
+      {%- for i in (1..10) -%}
+        {%- assign frame_number = i | prepend: '00' | slice: -2, 2 -%}
+        <img
+          class="hero-intro__frame"
+          data-hero-intro-frame
+          src="{{ 'Frame ' | append: frame_number | append: '.jpg' | asset_url }}"
+          alt=""
+          loading="lazy"
+          width="1080"
+          height="1350"
+        >
+      {%- endfor -%}
+
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="hero-intro__frame-button"
+        data-hero-intro-frame-button
+        aria-label="{{ 'general.intro_animation.choose_button' | t }}"
+      >
+        <img src="{{ 'elegir.png' | asset_url }}" alt="" loading="lazy" width="2000" height="2000">
+      </a>
+    </div>
   </div>
 </hero-intro-scroll>
 
@@ -56,6 +80,9 @@
       this.bgTo = this.querySelector('[data-hero-intro-bg-to]');
       this.tagline = this.querySelector('[data-hero-intro-tagline]');
       this.scrollHint = this.querySelector('[data-hero-intro-scroll-hint]');
+      this.framesContainer = this.querySelector('[data-hero-intro-frames]');
+      this.frames = Array.from(this.querySelectorAll('[data-hero-intro-frame]'));
+      this.frameButton = this.querySelector('[data-hero-intro-frame-button]');
       this.ticking = false;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -63,6 +90,19 @@
         this.logo.classList.add('hero-intro__logo--visible');
         this.tagline.classList.add('hero-intro__tagline--visible');
         this.scrollHint.classList.add('hero-intro__scroll-hint--visible');
+
+        if (this.framesContainer && window.matchMedia('(max-width: 749px)').matches) {
+          this.logo.style.display = 'none';
+          this.tagline.style.display = 'none';
+          this.scrollHint.style.display = 'none';
+          this.framesContainer.style.opacity = '1';
+          this.frames.forEach((frame) => (frame.style.opacity = '1'));
+          if (this.frameButton) {
+            this.frameButton.style.opacity = '1';
+            this.frameButton.style.pointerEvents = 'auto';
+          }
+        }
+
         return;
       }
 
@@ -95,6 +135,8 @@
 
     measure() {
       this.scrollBudget = window.innerHeight * 0.6;
+      this.framesScrollDistance = window.innerHeight * 3.4;
+      this.isMobile = window.matchMedia('(max-width: 749px)').matches;
     }
 
     onResize() {
@@ -128,6 +170,10 @@
 
       this.updateBackground(progress);
       this.updateFade(progress);
+
+      if (this.isMobile && this.framesContainer && this.frames.length > 1) {
+        this.updateFrames(scrollY, budget);
+      }
     }
 
     updateBackground(progress) {
@@ -158,6 +204,31 @@
         this.logo.style.opacity = '';
         this.tagline.style.opacity = '';
         this.scrollHint.style.opacity = '';
+      }
+    }
+
+    updateFrames(scrollY, budget) {
+      const showFrames = scrollY >= budget;
+      this.framesContainer.style.opacity = showFrames ? '1' : '0';
+
+      if (!showFrames) return;
+
+      const distance = this.framesScrollDistance || window.innerHeight * 3.4;
+      const framesProgress = this.remap(scrollY, budget, budget + distance);
+      const transitions = this.frames.length - 1;
+      if (transitions <= 0) return;
+
+      const halfWidth = 0.05;
+
+      for (let i = 1; i < this.frames.length; i += 1) {
+        const center = i / transitions;
+        const opacity = this.smoothstep(this.remap(framesProgress, center - halfWidth, center + halfWidth));
+        this.frames[i].style.opacity = String(opacity);
+
+        if (i === this.frames.length - 1 && this.frameButton) {
+          this.frameButton.style.opacity = String(opacity);
+          this.frameButton.style.pointerEvents = opacity > 0.9 ? 'auto' : 'none';
+        }
       }
     }
   }

@@ -2,7 +2,8 @@
   "general": {
     "intro_animation": {
       "tagline": "Elixires para el alma",
-      "scroll_hint": "Desliza hacia arriba"
+      "scroll_hint": "Desliza hacia arriba",
+      "choose_button": "Elegir tu BRISSA favorita"
     },
     "hero_narrative": {
       "fragment_1": "Más que una vela.",
