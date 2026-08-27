@@ -126,6 +126,10 @@
       const budget = this.scrollBudget || window.innerHeight * 0.6;
       const progress = Math.min(1, Math.max(0, scrollY / budget));
 
+      try {
+        sessionStorage.setItem('brissaHeroScrollY', String(scrollY));
+      } catch (e) {}
+
       this.updateBackground(progress);
       this.updateFade(progress);
     }

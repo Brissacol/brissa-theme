@@ -5,6 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
+
+    {%- if template.name == 'index' -%}
+      <script>
+        (function () {
+          try {
+            history.scrollRestoration = 'manual';
+            var savedY = Number(sessionStorage.getItem('brissaHeroScrollY'));
+            var heroBounds = window.innerHeight * 1.3;
+            if (!isNaN(savedY) && savedY > 0 && savedY < heroBounds) {
+              window.scrollTo(0, 0);
+            }
+          } catch (e) {}
+        })();
+      </script>
+    {%- endif -%}
+
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
