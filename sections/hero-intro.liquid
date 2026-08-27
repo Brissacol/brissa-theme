@@ -137,6 +137,32 @@
       this.scrollBudget = window.innerHeight * 0.6;
       this.framesScrollDistance = window.innerHeight * 3.4;
       this.isMobile = window.matchMedia('(max-width: 749px)').matches;
+      this.measureFrameButton();
+    }
+
+    measureFrameButton() {
+      if (!this.framesContainer || !this.frameButton) return;
+
+      const containerRect = this.framesContainer.getBoundingClientRect();
+      if (containerRect.width === 0 || containerRect.height === 0) return;
+
+      const imageWidth = 1080;
+      const imageHeight = 1350;
+      const scale = Math.max(containerRect.width / imageWidth, containerRect.height / imageHeight);
+      const displayedWidth = imageWidth * scale;
+      const displayedHeight = imageHeight * scale;
+      const offsetX = (containerRect.width - displayedWidth) / 2;
+      const offsetY = (containerRect.height - displayedHeight) / 2;
+
+      const left = offsetX + 0.284 * displayedWidth;
+      const right = offsetX + 0.716 * displayedWidth;
+      const top = offsetY + 0.764 * displayedHeight;
+      const bottom = offsetY + 0.835 * displayedHeight;
+
+      this.frameButton.style.left = `${left}px`;
+      this.frameButton.style.width = `${right - left}px`;
+      this.frameButton.style.top = `${top}px`;
+      this.frameButton.style.height = `${bottom - top}px`;
     }
 
     onResize() {
