@@ -23,9 +23,22 @@
   if product.options_with_values.size == 1 and product.variants.size > 1
     assign single_option = true
   endif
+
+  if collection
+    assign back_url = collection.url
+    assign back_label = collection.title
+  else
+    assign back_url = routes.all_products_collection_url
+    assign back_label = 'brissa.product.back_to_catalog' | t
+  endif
 -%}
 
 <div class="brissa-product">
+  <a href="{{ back_url }}" class="brissa-product__back reveal-base">
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+    {{ back_label }}
+  </a>
+
   <div class="brissa-product__grid">
     <brissa-product-gallery class="brissa-product__media reveal-base">
       {%- if product.media.size > 0 -%}

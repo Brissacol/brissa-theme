@@ -4,6 +4,34 @@
   padding: 0 var(--brissa-margin-mobile) var(--brissa-section-gap);
 }
 
+.brissa-product__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  color: rgb(var(--brissa-on-surface-variant));
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.brissa-product__back .material-symbols-outlined {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.brissa-product__back:hover {
+  color: rgb(var(--brissa-primary));
+}
+
+.brissa-product__back:hover .material-symbols-outlined {
+  transform: translateX(-3px);
+}
+
 .brissa-product__grid {
   display: grid;
   grid-template-columns: 1fr;

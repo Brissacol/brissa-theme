@@ -572,7 +572,8 @@
       "birth_date": "Fecha de Nacimiento",
       "variant_note": "Nuestras velas originales llevan la esencia pura de la fragancia, mientras que la versión Canalizada es una pieza intencionada específicamente para tu energía personal a través de un ritual de conexión.",
       "variant_note_prefix": "Conoce más sobre el propósito de nuestras velas en nuestra",
-      "philosophy": "Filosofía"
+      "philosophy": "Filosofía",
+      "back_to_catalog": "Volver al catálogo"
     }
   }
 }

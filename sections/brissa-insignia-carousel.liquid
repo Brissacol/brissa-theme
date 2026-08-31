@@ -25,7 +25,7 @@
             assign card_image_alt = card_image.alt | default: product.title | escape
           -%}
           <div class="brissa-insignia-card {{ position_class }}{% if block.settings.narrow %} brissa-insignia-card--narrow{% endif %} reveal-base" {{ block.shopify_attributes }}>
-            <a href="{% if product %}{{ product.url }}{% else %}#{% endif %}" class="brissa-insignia-card__link">
+            <a href="{% if product %}{{ product.url | within: collections.all }}{% else %}#{% endif %}" class="brissa-insignia-card__link">
               {%- if card_image != blank -%}
                 {{
                   card_image

@@ -15,7 +15,7 @@
             assign card_desc = product.description | strip_html | truncate: 60
           -%}
           <article class="brissa-collection-card reveal-base">
-            <a href="{{ product.url }}" class="brissa-collection-card__link">
+            <a href="{{ product.url | within: collection }}" class="brissa-collection-card__link">
               <div class="brissa-collection-card__image">
                 {%- if product.featured_image != blank -%}
                   {{
