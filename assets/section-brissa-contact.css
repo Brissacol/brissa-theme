@@ -1,0 +1,224 @@
+.brissa-contact {
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  margin-top: -64px;
+  padding-top: 152px;
+  padding-bottom: 96px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.brissa-contact__bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.brissa-contact__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brissa-contact__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.brissa-contact__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 var(--brissa-margin-mobile);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+
+.brissa-contact__header {
+  max-width: 40rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.brissa-contact__heading {
+  margin: 0;
+  font-family: var(--brissa-font-heading);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgb(var(--brissa-background));
+}
+
+.brissa-contact__text {
+  margin: 0;
+  font-family: var(--brissa-font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgb(var(--brissa-background));
+}
+
+.brissa-contact__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.brissa-contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.brissa-contact-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.brissa-contact-card__icon {
+  display: inline-flex;
+  color: rgb(var(--brissa-primary));
+}
+
+.brissa-contact-card__icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+.brissa-contact-card__title {
+  margin: 0;
+  font-family: var(--brissa-font-heading);
+  font-size: 24px;
+  color: rgb(var(--brissa-background));
+}
+
+.brissa-contact-card__subtitle {
+  margin: 0;
+  font-family: var(--brissa-font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: rgb(var(--brissa-background));
+}
+
+.brissa-contact__newsletter {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.brissa-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+.brissa-contact-form__field {
+  position: relative;
+}
+
+.brissa-contact-form__field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(var(--brissa-primary));
+  padding: 8px 0;
+  font-family: var(--brissa-font-body);
+  font-size: 16px;
+  color: rgb(var(--brissa-primary));
+}
+
+.brissa-contact-form__field input:focus {
+  outline: none;
+}
+
+.brissa-contact-form__field label {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  font-family: var(--brissa-font-body);
+  font-size: 16px;
+  color: rgba(var(--brissa-primary), 0.7);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.brissa-contact-form__field input:focus + label,
+.brissa-contact-form__field input:not(:placeholder-shown) + label {
+  top: -16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.brissa-contact-form__message {
+  margin: 0;
+  font-family: var(--brissa-font-body);
+  font-size: 13px;
+}
+
+.brissa-contact-form__message--error {
+  color: #ba1a1a;
+}
+
+.brissa-contact-form__message--success {
+  color: rgb(var(--brissa-primary));
+  font-weight: 600;
+}
+
+.brissa-contact-form__submit {
+  align-self: center;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 999px;
+  background: rgb(var(--brissa-primary));
+  color: rgb(var(--brissa-on-primary));
+  font-family: var(--brissa-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.brissa-contact-form__submit:hover {
+  background: rgb(var(--brissa-secondary));
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-contact__heading {
+    font-size: 40px;
+  }
+
+  .brissa-contact__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

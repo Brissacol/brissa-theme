@@ -1,0 +1,158 @@
+{{ 'section-brissa-contact.css' | asset_url | stylesheet_tag }}
+
+<section class="brissa-contact">
+  <div class="brissa-contact__bg">
+    {%- if section.settings.background_image != blank -%}
+      {{
+        section.settings.background_image
+        | image_url: width: 1800
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750,1000,1500,1800',
+          sizes: '100vw',
+          alt: section.settings.heading | escape
+      }}
+    {%- else -%}
+      <img src="{{ 'brissa-contact-bg.png' | asset_url }}" alt="{{ section.settings.heading | escape }}" loading="eager">
+    {%- endif -%}
+    <div class="brissa-contact__scrim" aria-hidden="true"> </div>
+  </div>
+
+  <div class="brissa-contact__inner">
+    <div class="brissa-contact__header reveal-base">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="brissa-contact__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="brissa-contact__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="brissa-contact__grid">
+      {%- if settings.social_instagram_link != blank -%}
+        <a href="{{ settings.social_instagram_link }}" class="brissa-contact-card reveal-base" target="_blank" rel="noopener">
+          <span class="brissa-contact-card__icon">{%- render 'brissa-icon-instagram' -%}</span>
+          <h3 class="brissa-contact-card__title">Instagram</h3>
+          {%- if section.settings.instagram_handle != blank -%}
+            <p class="brissa-contact-card__subtitle">{{ section.settings.instagram_handle }}</p>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+      {%- if settings.social_tiktok_link != blank -%}
+        <a href="{{ settings.social_tiktok_link }}" class="brissa-contact-card reveal-base reveal-delay-100" target="_blank" rel="noopener">
+          <span class="brissa-contact-card__icon">{%- render 'brissa-icon-tiktok' -%}</span>
+          <h3 class="brissa-contact-card__title">TikTok</h3>
+          {%- if section.settings.tiktok_handle != blank -%}
+            <p class="brissa-contact-card__subtitle">{{ section.settings.tiktok_handle }}</p>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+      {%- if settings.social_whatsapp_number != blank -%}
+        <a href="https://wa.me/{{ settings.social_whatsapp_number }}" class="brissa-contact-card reveal-base reveal-delay-200" target="_blank" rel="noopener">
+          <span class="brissa-contact-card__icon">{%- render 'brissa-icon-whatsapp' -%}</span>
+          <h3 class="brissa-contact-card__title">WhatsApp</h3>
+          {%- if section.settings.whatsapp_label != blank -%}
+            <p class="brissa-contact-card__subtitle">{{ section.settings.whatsapp_label }}</p>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_newsletter -%}
+      <div class="brissa-contact__newsletter reveal-base reveal-delay-300">
+        {% form 'customer', class: 'brissa-contact-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="brissa-contact-form__field">
+            <input
+              id="BrissaNewsletterEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              placeholder=" "
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              required
+              {% if form.errors %}
+                autofocus
+                aria-invalid="true"
+                aria-describedby="BrissaNewsletterError-{{ section.id }}"
+              {% endif %}
+            >
+            <label for="BrissaNewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+          </div>
+
+          {%- if form.errors -%}
+            <p class="brissa-contact-form__message brissa-contact-form__message--error" id="BrissaNewsletterError-{{ section.id }}">
+              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+            </p>
+          {%- elsif form.posted_successfully? -%}
+            <p class="brissa-contact-form__message brissa-contact-form__message--success">
+              {{ 'newsletter.success' | t }}
+            </p>
+          {%- endif -%}
+
+          <button type="submit" class="brissa-contact-form__submit brissa-btn-interactive">
+            {{ section.settings.newsletter_button_label }}
+          </button>
+        {% endform %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brissa contact",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Conecta con nuestra esencia",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Descubre más sobre nuestros elixires y forma parte de nuestra comunidad.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "default": "@brissa_col",
+      "label": "Instagram handle (display text)"
+    },
+    {
+      "type": "text",
+      "id": "tiktok_handle",
+      "default": "@brissa_col",
+      "label": "TikTok handle (display text)"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_label",
+      "default": "Escríbenos",
+      "label": "WhatsApp label (display text)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "default": true,
+      "label": "Show newsletter signup"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_label",
+      "default": "Suscribirse",
+      "label": "Newsletter button label"
+    }
+  ]
+}
+{% endschema %}
