@@ -21,13 +21,14 @@
           {%- liquid
             assign product = block.settings.product
             assign position_class = 'brissa-insignia-card--' | append: block.settings.text_position
-            assign card_image_alt = product.featured_image.alt | default: product.title | escape
+            assign card_image = product.images.last
+            assign card_image_alt = card_image.alt | default: product.title | escape
           -%}
           <div class="brissa-insignia-card {{ position_class }}{% if block.settings.narrow %} brissa-insignia-card--narrow{% endif %} reveal-base" {{ block.shopify_attributes }}>
             <a href="{% if product %}{{ product.url }}{% else %}#{% endif %}" class="brissa-insignia-card__link">
-              {%- if product.featured_image != blank -%}
+              {%- if card_image != blank -%}
                 {{
-                  product.featured_image
+                  card_image
                   | image_url: width: 1200
                   | image_tag:
                     loading: 'lazy',
