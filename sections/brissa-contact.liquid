@@ -64,12 +64,13 @@
         {% form 'customer', class: 'brissa-contact-form' %}
           <input type="hidden" name="contact[tags]" value="newsletter">
           <div class="brissa-contact-form__field">
+            <label class="visually-hidden" for="BrissaNewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
             <input
               id="BrissaNewsletterEmail-{{ section.id }}"
               type="email"
               name="contact[email]"
               value="{{ form.email }}"
-              placeholder=" "
+              placeholder="{{ 'newsletter.label' | t }}"
               autocorrect="off"
               autocapitalize="off"
               autocomplete="email"
@@ -80,7 +81,6 @@
                 aria-describedby="BrissaNewsletterError-{{ section.id }}"
               {% endif %}
             >
-            <label for="BrissaNewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
           </div>
 
           {%- if form.errors -%}
