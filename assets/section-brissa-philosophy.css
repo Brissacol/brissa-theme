@@ -7,13 +7,10 @@
 
 .brissa-philosophy-hero__container {
   display: block;
-  height: 160vh;
-  position: relative;
 }
 
 .brissa-philosophy-hero {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -148,7 +145,6 @@
 
 .brissa-philosophy-panel--experience {
   min-height: 100vh;
-  margin-top: -100vh;
 }
 
 .brissa-philosophy-panel--sensory,

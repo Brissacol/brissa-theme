@@ -160,9 +160,9 @@
         const scrollY = window.scrollY;
         const vh = window.innerHeight;
         const containerTop = this.offsetTop;
-        const scrollableDistance = Math.max(1, this.offsetHeight - vh);
+        const fadeDistance = vh * 0.7;
         const localScroll = Math.max(0, scrollY - containerTop);
-        const progress = Math.min(1, localScroll / scrollableDistance);
+        const progress = Math.min(1, localScroll / fadeDistance);
 
         if (this.content) {
           this.content.style.opacity = String(Math.max(0, 1 - progress));
