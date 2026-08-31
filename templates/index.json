@@ -22,7 +22,7 @@
           "type": "product",
           "settings": {
             "title": "Amélie",
-            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCZzo53OD8-hG3_1yhN4C5Mw0lwb0Tten0cW9eY7JPwdRwBAbBU7xO6QDs0h-DNpai2zlIzxGunL-uemGxkosDQ5dNpNp8WsO7WF_9r22KRUqWbNoeZ8RYOuJEALWDlHOsZ184dDhVrnkjhs4MyEWqcqYvZ-3IabgT1xaW3Jx6y0nCSn1sTMEAEJC--uPam_f6QFYoA4cyQVXPaxFbWfSHk3BqH1hPozRToS3-sfmqnBWPsnMCflPtOZ90eY3O3lZk3Uw",
+            "fallback_image_filename": "brissa-product-amelie.png",
             "description_line_1": "Notas de rosas",
             "description_line_2": "y algodón que envuelven el alma.",
             "text_position": "left"
@@ -32,7 +32,7 @@
           "type": "product",
           "settings": {
             "title": "Éter",
-            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fmgC8R06fU2QMl2Vchp-Oqyv9Rq1MgQ0hIs37MZUX58pKqFiFzyyeRZSDrO83exxUECwsg5YXZx1zn0pBdibyvdP5I_G9f1OYAys8QhbTbXuJdBC5xlB3hNQt2AZ8AHASJTVgRM5ZkpHwNI8BaeQO7GAYbo6ID0PqJPM1c9FH6g8uWVEy2SKtb_EmUJfBRCPVqXI24FsDgQ6gCcCfwQ_LXrul2dQ2qy0utxofsWe19YM67JC2vcVySyqrJ8_ZBNxvMyCKkXrRSAY7w",
+            "fallback_image_filename": "brissa-product-eter.png",
             "description_line_1": "Una danza etérea de rosa, jazmín",
             "description_line_2": "y vainilla.",
             "text_position": "left"
@@ -42,7 +42,7 @@
           "type": "product",
           "settings": {
             "title": "Lúmina",
-            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBybYwC-XJe4CT8zIohVMuxDIRDgsKIjsf6i2pvXcfbXgW3JDNbN741IgzIOJrLwFJIbcnKsPJigKyYL383QxvrAopLBHhmcli3AkhQV7cYKGWN3p-Hcgqy0dJTlNUhMhJmnnZ3-Oh3TGdPvXhQDCZkRnMsyoCiqO3le3H-iHFsquHtdzIqKjRlhQSV6J-kOO20Ht2yOx7bh5wuBWYbBzN9S4cbKVagDrdjJ1feTHhuprvtcuxGu3pr5s0cW9rEUm6yuw",
+            "fallback_image_filename": "brissa-product-lumina.png",
             "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
             "text_position": "left",
             "narrow": true
@@ -52,7 +52,7 @@
           "type": "product",
           "settings": {
             "title": "Néctar",
-            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBIPA6vlKDNwxtptWc-xputRn66DXJOhmzzB7tbstWflxT9qGqpU0ALRsdbgqej8nB71RlZ8VvMu3V4AUvHMBPVecDXtDdsFXtNZrk_dfYsiH3GM_TDNxSD83lhDIfkuPAqBsBJg2IoD0rqEpYDZ5ymgkIMVPzoieiJkpbj915tvbtlxis4uLFYooeRoLl-PesnlzJGrLC_nqD0qmIJOHMUnS32uX47STO9kQGtMqfZOyHLTU-l1LQj584mrYoG6ZClcw",
+            "fallback_image_filename": "brissa-product-nectar.png",
             "description_line_1": "Dulzura envolvente de algodón,",
             "description_line_2": "vainilla y lavanda.",
             "text_position": "left"
@@ -62,7 +62,7 @@
           "type": "product",
           "settings": {
             "title": "Ámbar",
-            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSFSk0F7NVpkDOUJU9XrKGPhEp7E9lZbzbKfpTnoaGEzK-khJdAwq-11upMs4yhP5fC0VOuX9MW6tXOaL5Tl22I_jpankgws6cW1dnzzQ0KmD8gnJFqQlcBBrg3yGqm9mAAF5o80zQ80pP60QOu0VRuX185JBz9AyL0JsXuK2QNSdU8Y5pOabmmm8TTuRaE7cP-9V9BGpvfEDnVZScTYt9yO2eWkw31ANUT_XG65DSfDi2bSgdWzKXNUyjrd5SpSyGCw",
+            "fallback_image_filename": "brissa-product-ambar.png",
             "description_line_1": "La calidez profunda del chocolate y la vainilla.",
             "text_position": "right"
           }
