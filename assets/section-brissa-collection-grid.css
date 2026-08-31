@@ -1,7 +1,5 @@
 main.content-for-layout[data-template='collection'] {
-  background-image: radial-gradient(rgb(var(--brissa-surface-variant)) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-attachment: fixed;
+  background-color: rgb(var(--brissa-background));
 }
 
 .brissa-collection-grid {
