@@ -148,6 +148,7 @@
 
 .brissa-philosophy-panel--experience {
   min-height: 100vh;
+  margin-top: -100vh;
 }
 
 .brissa-philosophy-panel--sensory,
