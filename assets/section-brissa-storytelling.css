@@ -81,3 +81,29 @@
 .brissa-storytelling__text p:last-child {
   margin-bottom: 0;
 }
+
+.brissa-storytelling__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.brissa-storytelling__link .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.brissa-storytelling__link:hover {
+  opacity: 0.8;
+  border-color: rgba(255, 255, 255, 0.8);
+}

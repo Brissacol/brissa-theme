@@ -38,6 +38,12 @@
       {%- if section.settings.text != blank -%}
         <div class="brissa-storytelling__text reveal-base reveal-delay-300">{{ section.settings.text }}</div>
       {%- endif -%}
+      {%- if section.settings.link_label != blank and pages.filosofia -%}
+        <a href="{{ pages.filosofia.url }}" class="brissa-storytelling__link reveal-base reveal-delay-300">
+          {{ section.settings.link_label }}
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+      {%- endif -%}
     </div>
   </div>
 </brissa-storytelling>
@@ -99,6 +105,13 @@
       "id": "text",
       "default": "<p>Aromas que envuelven.<br>Luz que transforman.<br>Detalles que permanecen.</p><p>Cada BRISSA es creada para habitar tus espacios y, si lo deseas, llevar consigo una intención exclusivamente tuya.</p><p><strong>Una vela. Una atmósfera. Una intención.</strong></p>",
       "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "Conoce nuestra filosofía",
+      "label": "Philosophy link label",
+      "info": "Only shown if a page with handle \"filosofia\" exists. Clear this field to hide the link."
     }
   ],
   "presets": [
