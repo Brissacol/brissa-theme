@@ -1,0 +1,309 @@
+.brissa-philosophy {
+  position: relative;
+  background: rgb(var(--brissa-background));
+}
+
+/* ---------- Hero ---------- */
+
+.brissa-philosophy-hero__container {
+  display: block;
+  height: 200vh;
+  position: relative;
+}
+
+.brissa-philosophy-hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 0;
+}
+
+.brissa-philosophy-hero__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.brissa-philosophy-hero__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brissa-philosophy-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 28, 25, 0.5), rgba(0, 0, 0, 0.4) 40%, transparent 70%);
+}
+
+.brissa-philosophy-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(var(--brissa-background));
+  opacity: 0;
+}
+
+.brissa-philosophy-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 var(--brissa-margin-mobile);
+  text-align: center;
+}
+
+.brissa-philosophy-hero__eyebrow {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.brissa-philosophy-hero__heading {
+  margin: 0;
+  font-family: var(--brissa-font-heading);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.brissa-philosophy-hero__heading-italic {
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.brissa-philosophy-hero__text {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--brissa-font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.brissa-philosophy-hero__scroll-hint {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.brissa-philosophy-hero__scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), transparent);
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-philosophy-hero__heading {
+    font-size: 64px;
+  }
+
+  .brissa-philosophy-hero__text {
+    font-size: 18px;
+  }
+}
+
+/* ---------- Panels (shared) ---------- */
+
+.brissa-philosophy-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 96px var(--brissa-margin-mobile);
+}
+
+.brissa-philosophy-panel--experience {
+  min-height: 100vh;
+}
+
+.brissa-philosophy-panel--sensory,
+.brissa-philosophy-panel--cta {
+  min-height: auto;
+  padding: 120px var(--brissa-margin-mobile);
+}
+
+.brissa-philosophy-panel__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.brissa-philosophy-panel__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brissa-philosophy-panel__scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.brissa-philosophy-panel__scrim--left {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.45), transparent 70%);
+}
+
+.brissa-philosophy-panel__scrim--blur {
+  background: rgba(var(--brissa-background), 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.brissa-philosophy-panel__scrim--fade-up {
+  background: linear-gradient(to top, rgba(var(--brissa-background), 1), rgba(var(--brissa-background), 0.4) 50%, rgba(0, 0, 0, 0.2));
+}
+
+.brissa-philosophy-panel__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--brissa-container-max);
+  margin: 0 auto;
+}
+
+.brissa-philosophy-panel__inner--center {
+  max-width: 48rem;
+  text-align: center;
+}
+
+/* ---------- Cards ---------- */
+
+.brissa-philosophy-card {
+  border-radius: 1.5rem;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.brissa-philosophy-card--glass-dark {
+  align-items: flex-start;
+  text-align: left;
+  max-width: 34rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.brissa-philosophy-card--glass-light {
+  background: rgba(var(--brissa-background), 0.85);
+  border: 1px solid rgba(var(--brissa-primary), 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.brissa-philosophy-card__icon {
+  color: rgb(var(--brissa-primary));
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.brissa-philosophy-card__heading {
+  margin: 0 0 16px;
+  font-family: var(--brissa-font-heading);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: rgb(var(--brissa-on-background));
+}
+
+.brissa-philosophy-card__heading--light {
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.brissa-philosophy-card__heading--italic {
+  font-weight: 300;
+  font-style: italic;
+}
+
+.brissa-philosophy-card__text {
+  font-family: var(--brissa-font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgb(var(--brissa-on-surface-variant));
+}
+
+.brissa-philosophy-card__text p {
+  margin: 0 0 20px;
+}
+
+.brissa-philosophy-card__text p:last-child {
+  margin-bottom: 0;
+}
+
+.brissa-philosophy-card__text--light {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.brissa-philosophy-card__button {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: rgb(var(--brissa-primary));
+  color: rgb(var(--brissa-on-primary));
+  font-family: var(--brissa-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.brissa-philosophy-card__button:hover {
+  background: rgb(var(--brissa-secondary));
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-philosophy-card {
+    padding: 48px 64px;
+  }
+
+  .brissa-philosophy-card__heading {
+    font-size: 40px;
+  }
+}
+

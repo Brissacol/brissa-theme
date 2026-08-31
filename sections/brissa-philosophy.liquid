@@ -1,0 +1,305 @@
+{{ 'section-brissa-philosophy.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign cta_url = section.settings.cta_button_link | default: routes.all_products_collection_url
+-%}
+
+<div class="brissa-philosophy">
+  <brissa-philosophy-hero class="brissa-philosophy-hero__container">
+    <section class="brissa-philosophy-hero">
+      <div class="brissa-philosophy-hero__bg">
+        {%- if section.settings.hero_image != blank -%}
+          {{
+            section.settings.hero_image
+            | image_url: width: 1800
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '750,1000,1500,1800',
+              sizes: '100vw',
+              alt: section.settings.hero_image.alt | default: section.settings.hero_eyebrow | escape
+          }}
+        {%- else -%}
+          <img src="{{ 'brissa-philosophy-hero.png' | asset_url }}" alt="{{ section.settings.hero_eyebrow | escape }}" loading="eager">
+        {%- endif -%}
+        <div class="brissa-philosophy-hero__scrim" aria-hidden="true"> </div>
+      </div>
+
+      <div class="brissa-philosophy-hero__overlay" data-brissa-philosophy-overlay aria-hidden="true"> </div>
+
+      <div class="brissa-philosophy-hero__content" data-brissa-philosophy-content>
+        {%- if section.settings.hero_eyebrow != blank -%}
+          <span class="brissa-philosophy-hero__eyebrow">{{ section.settings.hero_eyebrow }}</span>
+        {%- endif -%}
+        <h1 class="brissa-philosophy-hero__heading">
+          {{ section.settings.hero_heading }}
+          {%- if section.settings.hero_heading_italic != blank -%}
+            <span class="brissa-philosophy-hero__heading-italic">{{ section.settings.hero_heading_italic }}</span>
+          {%- endif -%}
+        </h1>
+        {%- if section.settings.hero_text != blank -%}
+          <p class="brissa-philosophy-hero__text">{{ section.settings.hero_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.hero_scroll_hint != blank -%}
+          <div class="brissa-philosophy-hero__scroll-hint" data-brissa-philosophy-scroll-hint>
+            <span>{{ section.settings.hero_scroll_hint }} &darr;</span>
+            <span class="brissa-philosophy-hero__scroll-line" aria-hidden="true"> </span>
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+  </brissa-philosophy-hero>
+
+  {%- if section.settings.experience_heading != blank or section.settings.experience_text != blank -%}
+    <section class="brissa-philosophy-panel brissa-philosophy-panel--experience">
+      <div class="brissa-philosophy-panel__bg">
+        {%- if section.settings.experience_image != blank -%}
+          {{
+            section.settings.experience_image
+            | image_url: width: 1600
+            | image_tag: loading: 'lazy', widths: '750,1000,1500,1600', sizes: '100vw', alt: section.settings.experience_heading | escape
+          }}
+        {%- else -%}
+          <img src="{{ 'brissa-philosophy-experience.png' | asset_url }}" alt="{{ section.settings.experience_heading | escape }}" loading="lazy">
+        {%- endif -%}
+        <div class="brissa-philosophy-panel__scrim brissa-philosophy-panel__scrim--left" aria-hidden="true"> </div>
+      </div>
+
+      <div class="brissa-philosophy-panel__inner">
+        <div class="brissa-philosophy-card brissa-philosophy-card--glass-dark reveal-base">
+          {%- if section.settings.experience_heading != blank -%}
+            <h2 class="brissa-philosophy-card__heading brissa-philosophy-card__heading--light">{{ section.settings.experience_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.experience_text != blank -%}
+            <div class="brissa-philosophy-card__text brissa-philosophy-card__text--light">{{ section.settings.experience_text }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- if section.settings.sensory_heading != blank or section.settings.sensory_text != blank -%}
+    <section class="brissa-philosophy-panel brissa-philosophy-panel--sensory">
+      <div class="brissa-philosophy-panel__bg">
+        {%- if section.settings.sensory_image != blank -%}
+          {{
+            section.settings.sensory_image
+            | image_url: width: 1600
+            | image_tag: loading: 'lazy', widths: '750,1000,1500,1600', sizes: '100vw', alt: section.settings.sensory_heading | escape
+          }}
+        {%- else -%}
+          <img src="{{ 'brissa-philosophy-sensory.png' | asset_url }}" alt="{{ section.settings.sensory_heading | escape }}" loading="lazy">
+        {%- endif -%}
+        <div class="brissa-philosophy-panel__scrim brissa-philosophy-panel__scrim--blur" aria-hidden="true"> </div>
+      </div>
+
+      <div class="brissa-philosophy-panel__inner brissa-philosophy-panel__inner--center">
+        <div class="brissa-philosophy-card brissa-philosophy-card--glass-light reveal-base">
+          <span class="material-symbols-outlined brissa-philosophy-card__icon" aria-hidden="true">flare</span>
+          {%- if section.settings.sensory_heading != blank -%}
+            <h2 class="brissa-philosophy-card__heading brissa-philosophy-card__heading--italic">{{ section.settings.sensory_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.sensory_text != blank -%}
+            <div class="brissa-philosophy-card__text">{{ section.settings.sensory_text }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- if section.settings.cta_heading != blank -%}
+    <section class="brissa-philosophy-panel brissa-philosophy-panel--cta">
+      <div class="brissa-philosophy-panel__bg">
+        {%- if section.settings.cta_image != blank -%}
+          {{
+            section.settings.cta_image
+            | image_url: width: 1600
+            | image_tag: loading: 'lazy', widths: '750,1000,1500,1600', sizes: '100vw', alt: section.settings.cta_heading | escape
+          }}
+        {%- else -%}
+          <img src="{{ 'brissa-philosophy-cta.png' | asset_url }}" alt="{{ section.settings.cta_heading | escape }}" loading="lazy">
+        {%- endif -%}
+        <div class="brissa-philosophy-panel__scrim brissa-philosophy-panel__scrim--fade-up" aria-hidden="true"> </div>
+      </div>
+
+      <div class="brissa-philosophy-panel__inner brissa-philosophy-panel__inner--center">
+        <div class="brissa-philosophy-card brissa-philosophy-card--glass-light reveal-base">
+          <span class="material-symbols-outlined brissa-philosophy-card__icon" aria-hidden="true">grade</span>
+          <h2 class="brissa-philosophy-card__heading brissa-philosophy-card__heading--italic">{{ section.settings.cta_heading }}</h2>
+          {%- if section.settings.cta_text != blank -%}
+            <p class="brissa-philosophy-card__text">{{ section.settings.cta_text }}</p>
+          {%- endif -%}
+          {%- if section.settings.cta_button_label != blank -%}
+            <a href="{{ cta_url }}" class="brissa-philosophy-card__button brissa-btn-interactive">{{ section.settings.cta_button_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+</div>
+
+{% javascript %}
+  class BrissaPhilosophyHero extends HTMLElement {
+    connectedCallback() {
+      this.content = this.querySelector('[data-brissa-philosophy-content]');
+      this.overlay = this.querySelector('[data-brissa-philosophy-overlay]');
+      this.ticking = false;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+
+      window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+    }
+
+    onScroll() {
+      if (this.ticking) return;
+      this.ticking = true;
+
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const vh = window.innerHeight;
+        const progress = Math.min(1, scrollY / vh);
+
+        if (this.content) {
+          this.content.style.opacity = String(Math.max(0, 1 - progress * 1.5));
+          this.content.style.transform = `translateY(${scrollY * 0.2}px)`;
+        }
+
+        if (this.overlay) {
+          this.overlay.style.opacity = String(Math.min(progress * 1.5, 1));
+        }
+
+        this.ticking = false;
+      });
+    }
+  }
+
+  customElements.define('brissa-philosophy-hero', BrissaPhilosophyHero);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brissa philosophy",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "default": "Filosofía",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "default": "Elixires para",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading_italic",
+      "default": "el alma",
+      "label": "Heading (italic part)"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "default": "Creemos que un instante puede transformarse con los detalles: un aroma que envuelve, una luz que transforma y una intención que hace tuyo cada momento.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "hero_scroll_hint",
+      "default": "DESCUBRE NUESTRA ESENCIA",
+      "label": "Scroll hint"
+    },
+    {
+      "type": "header",
+      "content": "Experience panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "experience_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "experience_heading",
+      "default": "Más que luz y aroma",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "experience_text",
+      "default": "<p>BRISSA crea velas aromáticas de soya hechas a mano, pensadas para iluminar, aromatizar y decorar tus espacios.</p><p>Pero, si lo deseas, tu vela puede ser intencionada y canalizada especialmente para ti, utilizando tu nombre, fecha de nacimiento y carta angelical durante su creación. Este proceso es opcional y completamente gratuito.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Sensory panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "sensory_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "sensory_heading",
+      "default": "El Arte de Manifestar",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "sensory_text",
+      "default": "<p>Tus deseos e intenciones son canalizados en tu BRISSA desde el momento de su creación: abundancia, prosperidad y todo aquello que anhelas atraer a tu vida.</p><p>Al encenderla, comienza el ritual. Mientras la cera se derrite y la llama permanece encendida, aquello que fue intencionado en tu vela comienza simbólicamente su camino hacia la manifestación.</p><p>Tu intención vive en la vela. La llama la pone en movimiento.</p>",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Closing / CTA panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "cta_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "default": "Elige tu Brissa",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "Descubre nuestra selección de elixires para el alma y encuentra la perfecta para tu espacio.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "default": "Explorar Catálogo",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brissa philosophy"
+    }
+  ]
+}
+{% endschema %}
