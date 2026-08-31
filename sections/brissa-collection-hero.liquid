@@ -20,7 +20,7 @@
   </div>
 
   <div class="brissa-collection-hero__content">
-    <h1 class="brissa-collection-hero__title">{{ collection.title | default: section.settings.fallback_title }}</h1>
+    <h1 class="brissa-collection-hero__title">{{ section.settings.fallback_title | default: collection.title }}</h1>
     {%- if collection.description != blank -%}
       <div class="brissa-collection-hero__text">{{ collection.description }}</div>
     {%- elsif section.settings.fallback_text != blank -%}
@@ -42,8 +42,8 @@
       "type": "text",
       "id": "fallback_title",
       "default": "Catálogo",
-      "label": "Fallback title",
-      "info": "Used only if the collection has no title"
+      "label": "Title",
+      "info": "Shown instead of the collection's own admin title. Clear this field to show the collection's title instead."
     },
     {
       "type": "textarea",
