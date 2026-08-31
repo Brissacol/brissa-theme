@@ -32,6 +32,7 @@
   color: rgb(var(--brissa-primary));
   background: none;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
