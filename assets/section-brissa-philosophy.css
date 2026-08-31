@@ -176,9 +176,9 @@
 }
 
 .brissa-philosophy-panel__scrim--blur {
-  background: rgba(var(--brissa-background), 0.7);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(var(--brissa-background), 0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .brissa-philosophy-panel__scrim--fade-up {
