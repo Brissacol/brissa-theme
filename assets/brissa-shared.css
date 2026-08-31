@@ -20,6 +20,19 @@
   --brissa-container-max: 1280px;
 }
 
+/*
+  The header is position:fixed on every page. The homepage hero is built to sit
+  full-bleed behind it, but every other template needs its content pushed down
+  by the header's own height so the header doesn't cover it.
+*/
+main.content-for-layout {
+  padding-top: 64px;
+}
+
+main.content-for-layout[data-template='index'] {
+  padding-top: 0;
+}
+
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
   font-size: 24px;
