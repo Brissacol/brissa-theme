@@ -79,9 +79,16 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  padding: 24px;
+  border-radius: 3rem;
   text-align: center;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.brissa-contact-card:hover {
+  transform: translateY(-6px);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .brissa-contact-card:active {
@@ -132,7 +139,7 @@
   flex-direction: column;
   gap: 24px;
   padding: 32px;
-  border-radius: 2rem;
+  border-radius: 3rem;
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
