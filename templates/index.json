@@ -21,6 +21,7 @@
         "product-1": {
           "type": "product",
           "settings": {
+            "product": "amelie",
             "title": "Amélie",
             "fallback_image_filename": "brissa-product-amelie.png",
             "description_line_1": "Notas de rosas",
@@ -31,6 +32,7 @@
         "product-2": {
           "type": "product",
           "settings": {
+            "product": "eter",
             "title": "Éter",
             "fallback_image_filename": "brissa-product-eter.png",
             "description_line_1": "Una danza etérea de rosa, jazmín",
@@ -41,6 +43,7 @@
         "product-3": {
           "type": "product",
           "settings": {
+            "product": "lumina",
             "title": "Lúmina",
             "fallback_image_filename": "brissa-product-lumina.png",
             "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
@@ -51,6 +54,7 @@
         "product-4": {
           "type": "product",
           "settings": {
+            "product": "nectar",
             "title": "Néctar",
             "fallback_image_filename": "brissa-product-nectar.png",
             "description_line_1": "Dulzura envolvente de algodón,",
@@ -61,6 +65,7 @@
         "product-5": {
           "type": "product",
           "settings": {
+            "product": "ambar",
             "title": "Ámbar",
             "fallback_image_filename": "brissa-product-ambar.png",
             "description_line_1": "La calidez profunda del chocolate y la vainilla.",
