@@ -4,11 +4,6 @@
   left: 0;
   right: 0;
   z-index: 50;
-  transition: transform 0.3s ease;
-}
-
-.brissa-header--hidden {
-  transform: translateY(-100%);
 }
 
 .brissa-header__bar {
@@ -21,6 +16,11 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
+}
+
+.brissa-header__bar--hidden {
+  transform: translateY(-100%);
 }
 
 .brissa-header__icon-btn {
@@ -83,7 +83,7 @@
 .brissa-header__overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 9998;
   background: rgba(var(--brissa-on-background), 0.2);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
@@ -104,7 +104,7 @@
   height: 100%;
   width: 80%;
   max-width: 24rem;
-  z-index: 70;
+  z-index: 9999;
   background: rgb(var(--brissa-background));
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transform: translateX(-100%);

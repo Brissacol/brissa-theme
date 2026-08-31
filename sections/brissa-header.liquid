@@ -60,10 +60,16 @@
 {% javascript %}
   class BrissaHeader extends HTMLElement {
     connectedCallback() {
+      this.bar = this.querySelector('.brissa-header__bar');
       this.menuOpenBtn = this.querySelector('[data-brissa-menu-open]');
       this.menuCloseBtn = this.querySelector('[data-brissa-menu-close]');
       this.overlay = this.querySelector('[data-brissa-menu-overlay]');
       this.drawer = this.querySelector('[data-brissa-menu-drawer]');
+
+      // Moved to <body> so they can never end up trapped behind page content
+      // that creates its own stacking context (e.g. animated/transformed elements).
+      document.body.appendChild(this.overlay);
+      document.body.appendChild(this.drawer);
 
       this.menuOpenBtn.addEventListener('click', () => this.openMenu());
       this.menuCloseBtn.addEventListener('click', () => this.closeMenu());
@@ -94,9 +100,9 @@
         const scrollY = window.scrollY;
 
         if (scrollY > this.lastScrollY && scrollY > 100) {
-          this.classList.add('brissa-header--hidden');
+          this.bar.classList.add('brissa-header__bar--hidden');
         } else {
-          this.classList.remove('brissa-header--hidden');
+          this.bar.classList.remove('brissa-header__bar--hidden');
         }
 
         this.lastScrollY = scrollY;
