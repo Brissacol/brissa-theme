@@ -551,7 +551,8 @@
       "tagline": "Elixirs for the soul."
     },
     "insignia": {
-      "discover": "Discover"
+      "discover": "Discover",
+      "go_to_slide": "Go to product {{ number }}"
     }
   }
 }

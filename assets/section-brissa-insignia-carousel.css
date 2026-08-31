@@ -79,8 +79,15 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  touch-action: pan-y;
+  touch-action: pan-x;
+  cursor: grab;
   padding: 0 5% 32px;
+}
+
+.brissa-insignia-carousel__track.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
 }
 
 .brissa-insignia-card {
@@ -190,9 +197,12 @@
   display: block;
   width: 6px;
   height: 6px;
+  padding: 0;
+  border: none;
   border-radius: 999px;
   background: rgb(var(--brissa-primary));
   opacity: 0.2;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 

@@ -563,7 +563,8 @@
       "tagline": "Elixires para el alma."
     },
     "insignia": {
-      "discover": "Descubrir"
+      "discover": "Descubrir",
+      "go_to_slide": "Ir al producto {{ number }}"
     }
   }
 }
