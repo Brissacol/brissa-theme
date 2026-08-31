@@ -1,0 +1,57 @@
+{{ 'section-brissa-collection-hero.css' | asset_url | stylesheet_tag }}
+
+<section class="brissa-collection-hero">
+  <div class="brissa-collection-hero__bg">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750,1000,1500,1600',
+          sizes: '100vw',
+          alt: section.settings.image.alt | default: collection.title | escape
+      }}
+    {%- else -%}
+      <img src="{{ 'brissa-collection-hero.png' | asset_url }}" alt="{{ collection.title | escape }}" loading="eager">
+    {%- endif -%}
+    <div class="brissa-collection-hero__scrim" aria-hidden="true"> </div>
+  </div>
+
+  <div class="brissa-collection-hero__content">
+    <h1 class="brissa-collection-hero__title">{{ collection.title | default: section.settings.fallback_title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="brissa-collection-hero__text">{{ collection.description }}</div>
+    {%- elsif section.settings.fallback_text != blank -%}
+      <p class="brissa-collection-hero__text">{{ section.settings.fallback_text }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brissa collection hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_title",
+      "default": "Catálogo",
+      "label": "Fallback title",
+      "info": "Used only if the collection has no title"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_text",
+      "default": "Explora nuestra colección completa de elixires, diseñados para elevar el espíritu y transformar tu espacio.",
+      "label": "Fallback text",
+      "info": "Used only if the collection has no description"
+    }
+  ]
+}
+{% endschema %}

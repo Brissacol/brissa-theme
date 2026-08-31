@@ -1,0 +1,143 @@
+main.content-for-layout[data-template='collection'] {
+  background-image: radial-gradient(rgb(var(--brissa-surface-variant)) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
+}
+
+.brissa-collection-grid {
+  max-width: var(--brissa-container-max);
+  margin: 0 auto;
+  padding: 0 var(--brissa-margin-mobile) var(--brissa-section-gap);
+}
+
+.brissa-collection-grid__empty {
+  text-align: center;
+  font-family: var(--brissa-font-body);
+  color: rgb(var(--brissa-on-surface-variant));
+  padding: 64px 0;
+}
+
+.brissa-collection-grid__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--brissa-gutter);
+  row-gap: 48px;
+}
+
+.brissa-collection-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brissa-collection-card__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: rgb(var(--brissa-surface-container-low));
+}
+
+.brissa-collection-card__image img,
+.brissa-collection-card__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.brissa-collection-card__placeholder {
+  color: rgb(var(--brissa-surface-variant));
+}
+
+.brissa-collection-card__link:hover .brissa-collection-card__image img {
+  transform: scale(1.05);
+}
+
+.brissa-collection-card__body {
+  margin-top: 16px;
+}
+
+.brissa-collection-card__title {
+  margin: 0;
+  font-family: var(--brissa-font-heading);
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  color: rgb(var(--brissa-on-background));
+}
+
+.brissa-collection-card__desc {
+  margin: 4px 0 0;
+  font-family: var(--brissa-font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: rgb(var(--brissa-on-surface-variant));
+}
+
+.brissa-collection-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.brissa-collection-card__tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--brissa-font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.brissa-collection-card__tag--lavender {
+  background: #e9deef;
+  color: #240f44;
+}
+
+.brissa-collection-card__tag--sky {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.brissa-collection-card__tag--amber {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.brissa-collection-card__tag--orange {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.brissa-collection-card__tag--stone {
+  background: #f5f5f4;
+  color: #44403c;
+}
+
+.brissa-collection-card__price {
+  margin-top: 8px;
+  font-family: var(--brissa-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(var(--brissa-on-background));
+}
+
+.brissa-collection-grid nav[role='navigation'] {
+  margin-top: 48px;
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-collection-grid__list {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 64px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .brissa-collection-grid__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
