@@ -102,8 +102,8 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 80%;
-  max-width: 24rem;
+  width: 88%;
+  max-width: 28rem;
   z-index: 9999;
   background: rgb(var(--brissa-background));
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -112,7 +112,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: var(--brissa-margin-mobile) 32px;
+  padding: var(--brissa-margin-mobile);
   overflow-y: auto;
 }
 
