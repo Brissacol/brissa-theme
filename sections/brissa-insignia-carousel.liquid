@@ -76,6 +76,15 @@
       </div>
     </brissa-insignia-carousel>
   {%- endif -%}
+
+  {%- if section.settings.catalog_link_label != blank -%}
+    <div class="brissa-insignia__catalog-link-wrap reveal-base">
+      <a href="{{ routes.all_products_collection_url }}" class="brissa-insignia__catalog-link brissa-btn-interactive">
+        {{ section.settings.catalog_link_label }}
+        <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+      </a>
+    </div>
+  {%- endif -%}
 </section>
 
 {% javascript %}
@@ -173,6 +182,13 @@
       "id": "heading",
       "default": "Colección Insignia",
       "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "catalog_link_label",
+      "default": "Ver catálogo completo",
+      "label": "Catalog link label",
+      "info": "Clear this field to hide the link"
     }
   ],
   "blocks": [

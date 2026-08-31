@@ -211,3 +211,40 @@
   height: 8px;
   opacity: 1;
 }
+
+.brissa-insignia__catalog-link-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.brissa-insignia__catalog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--brissa-primary), 0.3);
+  color: rgb(var(--brissa-primary));
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.brissa-insignia__catalog-link .material-symbols-outlined {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.brissa-insignia__catalog-link:hover {
+  background-color: rgba(var(--brissa-primary), 0.08);
+  border-color: rgb(var(--brissa-primary));
+}
+
+.brissa-insignia__catalog-link:hover .material-symbols-outlined {
+  transform: translateX(3px);
+}
