@@ -118,6 +118,21 @@
                     </button>
                   {%- endfor -%}
                 </div>
+
+                <div class="brissa-product__variant-note">
+                  <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                  <p>
+                    {{ 'brissa.product.variant_note' | t }}
+                    <span class="brissa-product__variant-note-link">
+                      {{ 'brissa.product.variant_note_prefix' | t }}
+                      {%- if pages.filosofia -%}
+                        <a href="{{ pages.filosofia.url }}">{{ 'brissa.product.philosophy' | t }}</a>.
+                      {%- else -%}
+                        {{ 'brissa.product.philosophy' | t }}.
+                      {%- endif -%}
+                    </span>
+                  </p>
+                </div>
               </div>
 
               <div class="brissa-product__personalization" data-brissa-personalization hidden>

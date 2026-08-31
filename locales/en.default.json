@@ -557,7 +557,10 @@
     "product": {
       "personalization_title": "Personalization details",
       "full_name": "Full Name",
-      "birth_date": "Date of Birth"
+      "birth_date": "Date of Birth",
+      "variant_note": "Our original candles carry the pure essence of the fragrance, while the Channeled version is a piece intentioned specifically for your personal energy through a connection ritual.",
+      "variant_note_prefix": "Learn more about the purpose of our candles in our",
+      "philosophy": "Philosophy"
     }
   }
 }
