@@ -4,7 +4,21 @@
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
-  assign quote = product.description | strip_html | truncate: 90
+  case product.handle
+    when 'amelie'
+      assign quote = 'Un elixir de rosas frescas y algodón.'
+    when 'eter'
+      assign quote = 'Un elixir de rosas, jazmín silvestre y lavanda.'
+    when 'lumina'
+      assign quote = 'Un elixir de lavanda serena y jazmín.'
+    when 'nectar'
+      assign quote = 'Un elixir de algodón de azúcar, vainilla cremosa y lavanda.'
+    when 'ambar'
+      assign quote = 'Un elixir de chocolate intenso y vainilla.'
+    else
+      assign quote = product.description | strip_html | truncate: 90
+  endcase
+
   assign single_option = false
   if product.options_with_values.size == 1 and product.variants.size > 1
     assign single_option = true
