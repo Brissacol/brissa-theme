@@ -159,15 +159,18 @@
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
         const vh = window.innerHeight;
-        const progress = Math.min(1, scrollY / vh);
+        const containerTop = this.offsetTop;
+        const scrollableDistance = Math.max(1, this.offsetHeight - vh);
+        const localScroll = Math.max(0, scrollY - containerTop);
+        const progress = Math.min(1, localScroll / scrollableDistance);
 
         if (this.content) {
-          this.content.style.opacity = String(Math.max(0, 1 - progress * 1.5));
-          this.content.style.transform = `translateY(${scrollY * 0.2}px)`;
+          this.content.style.opacity = String(Math.max(0, 1 - progress));
+          this.content.style.transform = `translateY(${localScroll * 0.2}px)`;
         }
 
         if (this.overlay) {
-          this.overlay.style.opacity = String(Math.min(progress * 1.5, 1));
+          this.overlay.style.opacity = String(progress);
         }
 
         this.ticking = false;
