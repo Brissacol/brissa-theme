@@ -23,6 +23,21 @@
   object-fit: cover;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .brissa-collection-hero__bg--reveal img {
+    animation: brissa-collection-hero-bg-reveal 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform: scale(1.08);
+    opacity: 0;
+  }
+
+  @keyframes brissa-collection-hero-bg-reveal {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
 .brissa-collection-hero__scrim {
   position: absolute;
   inset: 0;

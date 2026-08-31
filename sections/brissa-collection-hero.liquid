@@ -1,7 +1,7 @@
 {{ 'section-brissa-collection-hero.css' | asset_url | stylesheet_tag }}
 
 <section class="brissa-collection-hero">
-  <div class="brissa-collection-hero__bg">
+  <div class="brissa-collection-hero__bg brissa-collection-hero__bg--reveal">
     {%- if section.settings.image != blank -%}
       {{
         section.settings.image
@@ -20,11 +20,11 @@
   </div>
 
   <div class="brissa-collection-hero__content">
-    <h1 class="brissa-collection-hero__title">{{ section.settings.fallback_title | default: collection.title }}</h1>
+    <h1 class="brissa-collection-hero__title brissa-hero-fade-in">{{ section.settings.fallback_title | default: collection.title }}</h1>
     {%- if collection.description != blank -%}
-      <div class="brissa-collection-hero__text">{{ collection.description }}</div>
+      <div class="brissa-collection-hero__text brissa-hero-fade-in" style="animation-delay: 0.15s;">{{ collection.description }}</div>
     {%- elsif section.settings.fallback_text != blank -%}
-      <p class="brissa-collection-hero__text">{{ section.settings.fallback_text }}</p>
+      <p class="brissa-collection-hero__text brissa-hero-fade-in" style="animation-delay: 0.15s;">{{ section.settings.fallback_text }}</p>
     {%- endif -%}
   </div>
 </section>
