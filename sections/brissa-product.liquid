@@ -1,0 +1,224 @@
+{{ 'section-brissa-product.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign quote = product.description | strip_html | truncate: 90
+  assign single_option = false
+  if product.options_with_values.size == 1 and product.variants.size > 1
+    assign single_option = true
+  endif
+-%}
+
+<div class="brissa-product">
+  <div class="brissa-product__grid">
+    <brissa-product-gallery class="brissa-product__media reveal-base">
+      {%- if product.media.size > 0 -%}
+        <div class="brissa-product__gallery-main brissa-hide-scrollbar" data-brissa-gallery-main>
+          {%- for media in product.media -%}
+            <div class="brissa-product__gallery-slide" id="BrissaProductImage-{{ section.id }}-{{ forloop.index }}">
+              {{
+                media
+                | image_url: width: 1200
+                | image_tag:
+                  loading: forloop.first | default: 'lazy',
+                  widths: '400,600,900,1200',
+                  sizes: '(min-width: 990px) 55vw, 100vw',
+                  alt: media.alt | default: product.title | escape
+              }}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if product.media.size > 1 -%}
+          <div class="brissa-product__gallery-thumbs">
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="brissa-product__thumb{% if forloop.first %} is-active{% endif %}"
+                data-brissa-gallery-target="BrissaProductImage-{{ section.id }}-{{ forloop.index }}"
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+              >
+                {{ media | image_url: width: 200 | image_tag: loading: 'lazy', alt: media.alt | default: product.title | escape }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="brissa-product__gallery-main">
+          <div class="brissa-product__gallery-slide">{{ 'product-1' | placeholder_svg_tag: 'brissa-product__placeholder' }}</div>
+        </div>
+      {%- endif -%}
+
+      {%- if quote != blank -%}
+        <div class="brissa-product__quote">
+          <p>&ldquo;{{ quote }}&rdquo;</p>
+        </div>
+      {%- endif -%}
+    </brissa-product-gallery>
+
+    <div class="brissa-product__info">
+      <div class="brissa-product__header reveal-base">
+        {%- if product.tags.size > 0 -%}
+          <div class="brissa-product__tags">
+            {%- for tag in product.tags limit: 3 -%}
+              <span class="brissa-product__tag">{{ tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <h1 class="brissa-product__title">{{ product.title }}</h1>
+        <p class="brissa-product__price" data-brissa-product-price>{{ product.selected_or_first_available_variant.price | money }}</p>
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="brissa-product__description reveal-base">{{ product.description }}</div>
+      {%- endif -%}
+
+      <product-form class="brissa-product__form reveal-base">
+        {%- form 'product', product -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" disabled>
+
+          {%- if single_option -%}
+            <brissa-product-variants>
+              <div class="brissa-product__variant-block" data-brissa-variant-block>
+                <label class="brissa-product__label">{{ product.options_with_values.first.name }}</label>
+                <div class="brissa-product__variant-selector" role="group">
+                  {%- for value in product.options_with_values.first.values -%}
+                    {%- assign variant_for_value = product.variants | where: 'option1', value | first -%}
+                    {%- unless variant_for_value -%}
+                      {%- assign variant_for_value = product.variants | where: 'option2', value | first -%}
+                    {%- endunless -%}
+                    {%- unless variant_for_value -%}
+                      {%- assign variant_for_value = product.variants | where: 'option3', value | first -%}
+                    {%- endunless -%}
+                    <button
+                      type="button"
+                      class="brissa-product__variant-btn{% if forloop.first %} is-active{% endif %}"
+                      data-brissa-variant-option
+                      data-variant-id="{{ variant_for_value.id }}"
+                      data-variant-price="{{ variant_for_value.price | money }}"
+                      data-value="{{ value | escape }}"
+                    >
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+
+              <div class="brissa-product__personalization" data-brissa-personalization hidden>
+                <label class="brissa-product__label">{{ 'brissa.product.personalization_title' | t }}</label>
+                <div class="brissa-product__personalization-fields">
+                  <div class="brissa-product__field">
+                    <label for="BrissaFullName-{{ section.id }}">{{ 'brissa.product.full_name' | t }}</label>
+                    <input type="text" id="BrissaFullName-{{ section.id }}" name="properties[{{ 'brissa.product.full_name' | t }}]">
+                  </div>
+                  <div class="brissa-product__field">
+                    <label for="BrissaBirthDate-{{ section.id }}">{{ 'brissa.product.birth_date' | t }}</label>
+                    <input type="date" id="BrissaBirthDate-{{ section.id }}" name="properties[{{ 'brissa.product.birth_date' | t }}]">
+                  </div>
+                </div>
+              </div>
+            </brissa-product-variants>
+          {%- endif -%}
+
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+
+          <button type="submit" class="brissa-product__submit brissa-btn-interactive" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+            <span>
+              {%- if product.selected_or_first_available_variant.available == false -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        {%- endform -%}
+      </product-form>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  class BrissaProductGallery extends HTMLElement {
+    connectedCallback() {
+      this.main = this.querySelector('[data-brissa-gallery-main]');
+      this.thumbs = Array.from(this.querySelectorAll('[data-brissa-gallery-target]'));
+
+      if (!this.main || !this.thumbs.length) return;
+
+      this.main.addEventListener('scroll', () => this.onScroll(), { passive: true });
+      this.thumbs.forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+          const target = this.querySelector('#' + thumb.dataset.brissaGalleryTarget);
+          if (target) target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+      });
+    }
+
+    onScroll() {
+      if (this.ticking) return;
+      this.ticking = true;
+
+      requestAnimationFrame(() => {
+        const slides = Array.from(this.main.children);
+        const scrollLeft = this.main.scrollLeft;
+        let activeIndex = 0;
+        let minDistance = Infinity;
+
+        slides.forEach((slide, index) => {
+          const distance = Math.abs(slide.offsetLeft - scrollLeft);
+          if (distance < minDistance) {
+            minDistance = distance;
+            activeIndex = index;
+          }
+        });
+
+        this.thumbs.forEach((thumb, index) => thumb.classList.toggle('is-active', index === activeIndex));
+        this.ticking = false;
+      });
+    }
+  }
+
+  customElements.define('brissa-product-gallery', BrissaProductGallery);
+
+  class BrissaProductVariants extends HTMLElement {
+    connectedCallback() {
+      this.buttons = Array.from(this.querySelectorAll('[data-brissa-variant-option]'));
+      this.form = this.closest('form');
+      this.priceEl = this.form ? this.form.closest('.brissa-product__info').querySelector('[data-brissa-product-price]') : null;
+      this.idInput = this.form ? this.form.querySelector('input[name="id"]') : null;
+      this.personalization = this.querySelector('[data-brissa-personalization]');
+
+      if (!this.buttons.length) return;
+
+      this.buttons.forEach((btn) => {
+        btn.addEventListener('click', () => this.selectVariant(btn));
+      });
+    }
+
+    selectVariant(btn) {
+      this.buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+
+      if (this.idInput) this.idInput.value = btn.dataset.variantId;
+      if (this.priceEl) this.priceEl.textContent = btn.dataset.variantPrice;
+
+      if (this.personalization) {
+        const isPersonalized = btn.dataset.value.toLowerCase().indexOf('canaliz') !== -1;
+        this.personalization.hidden = !isPersonalized;
+      }
+    }
+  }
+
+  customElements.define('brissa-product-variants', BrissaProductVariants);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brissa product",
+  "settings": []
+}
+{% endschema %}

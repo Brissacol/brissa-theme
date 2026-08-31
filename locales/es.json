@@ -565,6 +565,11 @@
     "insignia": {
       "discover": "Descubrir",
       "go_to_slide": "Ir al producto {{ number }}"
+    },
+    "product": {
+      "personalization_title": "Información para la canalización",
+      "full_name": "Nombre Completo",
+      "birth_date": "Fecha de Nacimiento"
     }
   }
 }
