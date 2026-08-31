@@ -1,0 +1,12 @@
+{%- if settings.social_whatsapp_number != blank -%}
+  {{ 'component-brissa-whatsapp-button.css' | asset_url | stylesheet_tag }}
+  <a
+    href="https://wa.me/{{ settings.social_whatsapp_number }}"
+    class="brissa-whatsapp-button"
+    target="_blank"
+    rel="noopener"
+    aria-label="{{ 'brissa.whatsapp.chat_with_us' | t }}"
+  >
+    {%- render 'brissa-icon-whatsapp' -%}
+  </a>
+{%- endif -%}

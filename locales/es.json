@@ -574,6 +574,9 @@
       "variant_note_prefix": "Conoce más sobre el propósito de nuestras velas en nuestra",
       "philosophy": "Filosofía",
       "back_to_catalog": "Volver al catálogo"
+    },
+    "whatsapp": {
+      "chat_with_us": "Chatea con nosotros por WhatsApp"
     }
   }
 }

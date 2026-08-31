@@ -10,6 +10,26 @@
     {%- endif -%}
   </div>
 
+  {%- if settings.social_instagram_link != blank or settings.social_tiktok_link != blank or settings.social_whatsapp_number != blank -%}
+    <div class="brissa-footer__social">
+      {%- if settings.social_instagram_link != blank -%}
+        <a href="{{ settings.social_instagram_link }}" class="brissa-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+          {%- render 'brissa-icon-instagram' -%}
+        </a>
+      {%- endif -%}
+      {%- if settings.social_tiktok_link != blank -%}
+        <a href="{{ settings.social_tiktok_link }}" class="brissa-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
+          {%- render 'brissa-icon-tiktok' -%}
+        </a>
+      {%- endif -%}
+      {%- if settings.social_whatsapp_number != blank -%}
+        <a href="https://wa.me/{{ settings.social_whatsapp_number }}" class="brissa-footer__social-link" target="_blank" rel="noopener" aria-label="WhatsApp">
+          {%- render 'brissa-icon-whatsapp' -%}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
   {%- if shop.policies != empty -%}
     <ul class="brissa-footer__links">
       {%- for policy in shop.policies -%}

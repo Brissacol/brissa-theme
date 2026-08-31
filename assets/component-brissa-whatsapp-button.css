@@ -1,0 +1,37 @@
+.brissa-whatsapp-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brissa-whatsapp-button svg {
+  width: 28px;
+  height: 28px;
+}
+
+.brissa-whatsapp-button:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.brissa-whatsapp-button:active {
+  transform: scale(0.96);
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-whatsapp-button {
+    right: 32px;
+    bottom: 32px;
+  }
+}

@@ -562,6 +562,9 @@
       "variant_note_prefix": "Learn more about the purpose of our candles in our",
       "philosophy": "Philosophy",
       "back_to_catalog": "Back to catalog"
+    },
+    "whatsapp": {
+      "chat_with_us": "Chat with us on WhatsApp"
     }
   }
 }

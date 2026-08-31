@@ -29,6 +29,31 @@
   font-size: 1.3rem;
 }
 
+.brissa-footer__social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.brissa-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--brissa-primary), 0.25);
+  color: rgb(var(--brissa-primary));
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.brissa-footer__social-link:hover {
+  background-color: rgb(var(--brissa-primary));
+  border-color: rgb(var(--brissa-primary));
+  color: rgb(var(--brissa-on-primary));
+}
+
 .brissa-footer__links {
   display: flex;
   flex-wrap: wrap;
