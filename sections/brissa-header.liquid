@@ -46,6 +46,9 @@
 
     <ul class="brissa-header__drawer-list">
       {%- for link in section.settings.menu.links -%}
+        {%- if link.active -%}
+          {%- continue -%}
+        {%- endif -%}
         <li>
           <a href="{{ link.url }}" class="brissa-header__drawer-link">
             <span class="material-symbols-outlined" aria-hidden="true">{{ nav_icons[forloop.index0] | default: 'auto_awesome' }}</span>
