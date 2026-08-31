@@ -5,7 +5,7 @@
   assign logo_alt = settings.logo.alt | default: shop.name | escape
 -%}
 
-<brissa-header class="brissa-header brissa-hero-fade-in" id="BrissaHeader-{{ section.id }}">
+<brissa-header class="brissa-header" id="BrissaHeader-{{ section.id }}">
   <div class="brissa-header__bar">
     <button type="button" class="brissa-header__icon-btn" aria-label="{{ 'brissa.header.open_menu' | t }}" data-brissa-menu-open>
       <span class="material-symbols-outlined" aria-hidden="true">menu</span>
