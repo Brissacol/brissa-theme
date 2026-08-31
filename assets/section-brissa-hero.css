@@ -1,5 +1,7 @@
 .brissa-hero {
   position: relative;
+  isolation: isolate;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
