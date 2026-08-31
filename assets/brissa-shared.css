@@ -43,6 +43,8 @@ main.content-for-layout[data-template='index'] {
   position: fixed !important;
   top: 64px !important;
   z-index: 9990 !important;
+  background-color: rgb(var(--brissa-background)) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18) !important;
 }
 
 .material-symbols-outlined {

@@ -26,6 +26,9 @@ class CartNotification extends HTMLElement {
 
     document.body.addEventListener('click', this.onBodyClick);
 
+    clearTimeout(this.autoCloseTimeout);
+    this.autoCloseTimeout = setTimeout(() => this.close(), 5000);
+
     this.dispatchCartViewEvent();
   }
 
@@ -57,6 +60,7 @@ class CartNotification extends HTMLElement {
   }
 
   close() {
+    clearTimeout(this.autoCloseTimeout);
     this.notification.classList.remove('active');
     document.body.removeEventListener('click', this.onBodyClick);
 
