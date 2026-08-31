@@ -553,5 +553,17 @@
       "expanded": "Formulario del destinatario de la tarjeta de regalo expandido",
       "collapsed": "Formulario del destinatario de tarjeta de regalo contraído"
     }
+  },
+  "brissa": {
+    "header": {
+      "open_menu": "Abrir menú",
+      "close_menu": "Cerrar menú"
+    },
+    "footer": {
+      "tagline": "Elixires para el alma."
+    },
+    "insignia": {
+      "discover": "Descubrir"
+    }
   }
 }

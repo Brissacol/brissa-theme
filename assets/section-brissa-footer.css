@@ -1,0 +1,64 @@
+.brissa-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--brissa-unit);
+  padding: 48px var(--brissa-margin-mobile);
+  background-color: rgb(var(--brissa-surface-container-low));
+  border-top: 1px solid rgba(var(--brissa-surface-variant), 0.5);
+}
+
+.brissa-footer__logo {
+  margin-bottom: 24px;
+}
+
+.brissa-footer__logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.brissa-footer__logo-text {
+  font-family: var(--brissa-font-heading);
+  color: rgb(var(--brissa-primary));
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+
+.brissa-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.brissa-footer__links a {
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--brissa-on-surface-variant));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.brissa-footer__links a:hover {
+  color: rgb(var(--brissa-primary));
+}
+
+.brissa-footer__copyright {
+  margin: 0;
+  font-family: var(--brissa-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgb(var(--brissa-secondary));
+}

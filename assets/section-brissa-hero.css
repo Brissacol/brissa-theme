@@ -1,0 +1,149 @@
+.brissa-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  text-align: right;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.brissa-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.1);
+  will-change: transform;
+}
+
+.brissa-hero__bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.brissa-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.1));
+}
+
+.brissa-hero__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 35vh;
+  padding: 0 var(--brissa-margin-mobile);
+  max-width: 90%;
+  will-change: opacity;
+}
+
+.brissa-hero__logo {
+  width: 12rem;
+  max-width: 60vw;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
+  filter: brightness(0) invert(1);
+}
+
+.brissa-hero__heading {
+  margin: 0;
+  font-family: var(--brissa-font-heading);
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.brissa-hero__text {
+  margin: 0;
+  max-width: 280px;
+  font-family: var(--brissa-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.brissa-hero__text p {
+  margin: 0;
+}
+
+.brissa-hero__button {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--brissa-primary), 0.2);
+  background: rgb(var(--brissa-primary));
+  color: rgb(var(--brissa-background));
+  font-family: var(--brissa-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.brissa-hero__button:hover {
+  background: rgb(var(--brissa-secondary));
+}
+
+.brissa-hero__scroll-indicator {
+  position: absolute;
+  bottom: 10vh;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+}
+
+.brissa-hero__scroll-indicator-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.brissa-hero__scroll-indicator-text {
+  font-family: var(--brissa-font-body);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+@media screen and (min-width: 750px) {
+  .brissa-hero__heading {
+    font-size: 64px;
+    letter-spacing: -0.02em;
+  }
+
+  .brissa-hero__text {
+    max-width: 360px;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brissa-hero__bg,
+  .brissa-hero__content,
+  .brissa-hero__scroll-indicator {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

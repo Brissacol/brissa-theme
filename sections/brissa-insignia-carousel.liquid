@@ -1,0 +1,233 @@
+{{ 'section-brissa-insignia-carousel.css' | asset_url | stylesheet_tag }}
+
+<section class="brissa-insignia">
+  <div class="brissa-insignia__bg-blobs" aria-hidden="true">
+    <span class="brissa-insignia__blob brissa-insignia__blob--1"> </span>
+    <span class="brissa-insignia__blob brissa-insignia__blob--2"> </span>
+    <span class="brissa-insignia__blob brissa-insignia__blob--3"> </span>
+  </div>
+
+  <div class="brissa-insignia__header reveal-base">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="brissa-insignia__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="brissa-editorial-line" aria-hidden="true"> </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <brissa-insignia-carousel class="brissa-insignia-carousel" id="BrissaInsignia-{{ section.id }}">
+      <div class="brissa-insignia-carousel__track brissa-hide-scrollbar" data-brissa-carousel-track>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign product = block.settings.product
+            assign position_class = 'brissa-insignia-card--' | append: block.settings.text_position
+            assign card_image_alt = product.featured_image.alt | default: product.title | escape
+          -%}
+          <div class="brissa-insignia-card {{ position_class }}{% if block.settings.narrow %} brissa-insignia-card--narrow{% endif %} reveal-base" {{ block.shopify_attributes }}>
+            <a href="{% if product %}{{ product.url }}{% else %}#{% endif %}" class="brissa-insignia-card__link">
+              {%- if product.featured_image != blank -%}
+                {{
+                  product.featured_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400,600,900,1200',
+                    sizes: '90vw',
+                    alt: card_image_alt
+                }}
+              {%- else -%}
+                <img src="{{ block.settings.fallback_image_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+
+              <div class="brissa-insignia-card__scrim" aria-hidden="true"> </div>
+
+              <div class="brissa-insignia-card__copy">
+                {%- assign card_title = product.title | default: block.settings.title -%}
+                {%- if card_title != blank -%}
+                  <h3 class="brissa-insignia-card__title text-micro-shadow text-micro-shadow-title">
+                    {{ card_title }}
+                  </h3>
+                {%- endif -%}
+                {%- if block.settings.description_line_1 != blank -%}
+                  <p class="brissa-insignia-card__desc text-micro-shadow text-micro-shadow-desc">{{ block.settings.description_line_1 }}</p>
+                {%- endif -%}
+                {%- if block.settings.description_line_2 != blank -%}
+                  <p class="brissa-insignia-card__desc text-micro-shadow text-micro-shadow-desc">{{ block.settings.description_line_2 }}</p>
+                {%- endif -%}
+                <span class="brissa-insignia-card__cta text-micro-shadow">
+                  {{ 'brissa.insignia.discover' | t }}
+                  <span class="material-symbols-outlined" aria-hidden="true">trending_flat</span>
+                </span>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="brissa-insignia-carousel__dots" data-brissa-carousel-dots>
+        {%- for block in section.blocks -%}
+          <span class="brissa-insignia-carousel__dot{% if forloop.first %} is-active{% endif %}"> </span>
+        {%- endfor -%}
+      </div>
+    </brissa-insignia-carousel>
+  {%- endif -%}
+</section>
+
+{% javascript %}
+  class BrissaInsigniaCarousel extends HTMLElement {
+    connectedCallback() {
+      this.track = this.querySelector('[data-brissa-carousel-track]');
+      this.dots = Array.from(this.querySelectorAll('[data-brissa-carousel-dots] > *'));
+
+      if (!this.track || !this.dots.length) return;
+
+      this.track.addEventListener('scroll', () => this.onScroll(), { passive: true });
+    }
+
+    onScroll() {
+      const scrollLeft = this.track.scrollLeft;
+      const containerWidth = this.track.clientWidth;
+      const centerPosition = scrollLeft + containerWidth / 2;
+
+      let activeIndex = 0;
+      let minDistance = Infinity;
+
+      Array.from(this.track.children).forEach((child, index) => {
+        const childCenter = child.offsetLeft + child.offsetWidth / 2;
+        const distance = Math.abs(centerPosition - childCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      this.dots.forEach((dot, index) => {
+        dot.classList.toggle('is-active', index === activeIndex);
+      });
+    }
+  }
+
+  customElements.define('brissa-insignia-carousel', BrissaInsigniaCarousel);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brissa insignia carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Colección Insignia",
+      "label": "Heading"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Fallback title",
+          "info": "Used only if no product is selected"
+        },
+        {
+          "type": "url",
+          "id": "fallback_image_url",
+          "label": "Fallback image URL",
+          "info": "Used only if the product has no image"
+        },
+        {
+          "type": "text",
+          "id": "description_line_1",
+          "label": "Description line 1"
+        },
+        {
+          "type": "text",
+          "id": "description_line_2",
+          "label": "Description line 2"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "narrow",
+          "label": "Narrow text column",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brissa insignia carousel",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "title": "Amélie",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCZzo53OD8-hG3_1yhN4C5Mw0lwb0Tten0cW9eY7JPwdRwBAbBU7xO6QDs0h-DNpai2zlIzxGunL-uemGxkosDQ5dNpNp8WsO7WF_9r22KRUqWbNoeZ8RYOuJEALWDlHOsZ184dDhVrnkjhs4MyEWqcqYvZ-3IabgT1xaW3Jx6y0nCSn1sTMEAEJC--uPam_f6QFYoA4cyQVXPaxFbWfSHk3BqH1hPozRToS3-sfmqnBWPsnMCflPtOZ90eY3O3lZk3Uw",
+            "description_line_1": "Notas de rosas",
+            "description_line_2": "y algodón que envuelven el alma.",
+            "text_position": "left"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Éter",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fmgC8R06fU2QMl2Vchp-Oqyv9Rq1MgQ0hIs37MZUX58pKqFiFzyyeRZSDrO83exxUECwsg5YXZx1zn0pBdibyvdP5I_G9f1OYAys8QhbTbXuJdBC5xlB3hNQt2AZ8AHASJTVgRM5ZkpHwNI8BaeQO7GAYbo6ID0PqJPM1c9FH6g8uWVEy2SKtb_EmUJfBRCPVqXI24FsDgQ6gCcCfwQ_LXrul2dQ2qy0utxofsWe19YM67JC2vcVySyqrJ8_ZBNxvMyCKkXrRSAY7w",
+            "description_line_1": "Una danza etérea de rosa, jazmín",
+            "description_line_2": "y vainilla.",
+            "text_position": "left"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Lúmina",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBybYwC-XJe4CT8zIohVMuxDIRDgsKIjsf6i2pvXcfbXgW3JDNbN741IgzIOJrLwFJIbcnKsPJigKyYL383QxvrAopLBHhmcli3AkhQV7cYKGWN3p-Hcgqy0dJTlNUhMhJmnnZ3-Oh3TGdPvXhQDCZkRnMsyoCiqO3le3H-iHFsquHtdzIqKjRlhQSV6J-kOO20Ht2yOx7bh5wuBWYbBzN9S4cbKVagDrdjJ1feTHhuprvtcuxGu3pr5s0cW9rEUm6yuw",
+            "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
+            "text_position": "left",
+            "narrow": true
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Néctar",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBIPA6vlKDNwxtptWc-xputRn66DXJOhmzzB7tbstWflxT9qGqpU0ALRsdbgqej8nB71RlZ8VvMu3V4AUvHMBPVecDXtDdsFXtNZrk_dfYsiH3GM_TDNxSD83lhDIfkuPAqBsBJg2IoD0rqEpYDZ5ymgkIMVPzoieiJkpbj915tvbtlxis4uLFYooeRoLl-PesnlzJGrLC_nqD0qmIJOHMUnS32uX47STO9kQGtMqfZOyHLTU-l1LQj584mrYoG6ZClcw",
+            "description_line_1": "Dulzura envolvente de algodón,",
+            "description_line_2": "vainilla y lavanda.",
+            "text_position": "left"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Ámbar",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSFSk0F7NVpkDOUJU9XrKGPhEp7E9lZbzbKfpTnoaGEzK-khJdAwq-11upMs4yhP5fC0VOuX9MW6tXOaL5Tl22I_jpankgws6cW1dnzzQ0KmD8gnJFqQlcBBrg3yGqm9mAAF5o80zQ80pP60QOu0VRuX185JBz9AyL0JsXuK2QNSdU8Y5pOabmmm8TTuRaE7cP-9V9BGpvfEDnVZScTYt9yO2eWkw31ANUT_XG65DSfDi2bSgdWzKXNUyjrd5SpSyGCw",
+            "description_line_1": "La calidez profunda del chocolate y la vainilla.",
+            "text_position": "right"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

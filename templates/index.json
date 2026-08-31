@@ -9,40 +9,71 @@
  */
 {
   "sections": {
-    "hero_intro": {
-      "type": "hero-intro"
+    "brissa_hero": {
+      "type": "brissa-hero"
     },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
+    "brissa_storytelling": {
+      "type": "brissa-storytelling"
+    },
+    "brissa_insignia_carousel": {
+      "type": "brissa-insignia-carousel",
+      "blocks": {
+        "product-1": {
+          "type": "product",
+          "settings": {
+            "title": "Amélie",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCZzo53OD8-hG3_1yhN4C5Mw0lwb0Tten0cW9eY7JPwdRwBAbBU7xO6QDs0h-DNpai2zlIzxGunL-uemGxkosDQ5dNpNp8WsO7WF_9r22KRUqWbNoeZ8RYOuJEALWDlHOsZ184dDhVrnkjhs4MyEWqcqYvZ-3IabgT1xaW3Jx6y0nCSn1sTMEAEJC--uPam_f6QFYoA4cyQVXPaxFbWfSHk3BqH1hPozRToS3-sfmqnBWPsnMCflPtOZ90eY3O3lZk3Uw",
+            "description_line_1": "Notas de rosas",
+            "description_line_2": "y algodón que envuelven el alma.",
+            "text_position": "left"
+          }
+        },
+        "product-2": {
+          "type": "product",
+          "settings": {
+            "title": "Éter",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fmgC8R06fU2QMl2Vchp-Oqyv9Rq1MgQ0hIs37MZUX58pKqFiFzyyeRZSDrO83exxUECwsg5YXZx1zn0pBdibyvdP5I_G9f1OYAys8QhbTbXuJdBC5xlB3hNQt2AZ8AHASJTVgRM5ZkpHwNI8BaeQO7GAYbo6ID0PqJPM1c9FH6g8uWVEy2SKtb_EmUJfBRCPVqXI24FsDgQ6gCcCfwQ_LXrul2dQ2qy0utxofsWe19YM67JC2vcVySyqrJ8_ZBNxvMyCKkXrRSAY7w",
+            "description_line_1": "Una danza etérea de rosa, jazmín",
+            "description_line_2": "y vainilla.",
+            "text_position": "left"
+          }
+        },
+        "product-3": {
+          "type": "product",
+          "settings": {
+            "title": "Lúmina",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBybYwC-XJe4CT8zIohVMuxDIRDgsKIjsf6i2pvXcfbXgW3JDNbN741IgzIOJrLwFJIbcnKsPJigKyYL383QxvrAopLBHhmcli3AkhQV7cYKGWN3p-Hcgqy0dJTlNUhMhJmnnZ3-Oh3TGdPvXhQDCZkRnMsyoCiqO3le3H-iHFsquHtdzIqKjRlhQSV6J-kOO20Ht2yOx7bh5wuBWYbBzN9S4cbKVagDrdjJ1feTHhuprvtcuxGu3pr5s0cW9rEUm6yuw",
+            "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
+            "text_position": "left",
+            "narrow": true
+          }
+        },
+        "product-4": {
+          "type": "product",
+          "settings": {
+            "title": "Néctar",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBIPA6vlKDNwxtptWc-xputRn66DXJOhmzzB7tbstWflxT9qGqpU0ALRsdbgqej8nB71RlZ8VvMu3V4AUvHMBPVecDXtDdsFXtNZrk_dfYsiH3GM_TDNxSD83lhDIfkuPAqBsBJg2IoD0rqEpYDZ5ymgkIMVPzoieiJkpbj915tvbtlxis4uLFYooeRoLl-PesnlzJGrLC_nqD0qmIJOHMUnS32uX47STO9kQGtMqfZOyHLTU-l1LQj584mrYoG6ZClcw",
+            "description_line_1": "Dulzura envolvente de algodón,",
+            "description_line_2": "vainilla y lavanda.",
+            "text_position": "left"
+          }
+        },
+        "product-5": {
+          "type": "product",
+          "settings": {
+            "title": "Ámbar",
+            "fallback_image_url": "https://lh3.googleusercontent.com/aida-public/AB6AXuCSFSk0F7NVpkDOUJU9XrKGPhEp7E9lZbzbKfpTnoaGEzK-khJdAwq-11upMs4yhP5fC0VOuX9MW6tXOaL5Tl22I_jpankgws6cW1dnzzQ0KmD8gnJFqQlcBBrg3yGqm9mAAF5o80zQ80pP60QOu0VRuX185JBz9AyL0JsXuK2QNSdU8Y5pOabmmm8TTuRaE7cP-9V9BGpvfEDnVZScTYt9yO2eWkw31ANUT_XG65DSfDi2bSgdWzKXNUyjrd5SpSyGCw",
+            "description_line_1": "La calidez profunda del chocolate y la vainilla.",
+            "text_position": "right"
+          }
+        }
+      },
+      "block_order": ["product-1", "product-2", "product-3", "product-4", "product-5"]
     }
   },
   "order": [
-    "hero_intro",
-    "featured_collection"
+    "brissa_hero",
+    "brissa_storytelling",
+    "brissa_insignia_carousel"
   ]
 }

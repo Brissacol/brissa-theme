@@ -1,0 +1,110 @@
+{{ 'section-brissa-storytelling.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign storytelling_alt = section.settings.image.alt | default: section.settings.heading | escape
+-%}
+
+<brissa-storytelling class="brissa-storytelling clip-path-reveal" id="BrissaStorytelling-{{ section.id }}">
+  <div class="brissa-storytelling__media">
+    <div class="brissa-storytelling__image scale-image-reveal" data-brissa-storytelling-bg>
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            widths: '750,1000,1500,1600',
+            sizes: '100vw',
+            alt: storytelling_alt
+        }}
+      {%- else -%}
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGE3lgveHJEqiYTwP_ALI7gd2NS48K79P4FLPYGBXGvyD6G6sPV-wwZUXzBOQlqIqGAu2JmKfIVhczTRJObcfHYy82tw-pZfoY5v9R37TvxZNT12X4EtTJuWlXLLgstZSOFcgGwfI09JvfP3hboCxvay-Zz4wnrLC5WdSF5qaOwC1Go7wgAC76Ssg7NK3FOiQthYaUWMnvBhCIxNXv7bcdE-ASEzbYx_c2Wfq1T4_sJG8tjfXGuc_lr_aAqkhjvN4ymA"
+          alt="{{ section.settings.heading | escape }}"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="brissa-storytelling__scrim" aria-hidden="true"> </div>
+
+    <div class="brissa-storytelling__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="brissa-storytelling__eyebrow reveal-base reveal-delay-100">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="brissa-storytelling__heading reveal-base reveal-delay-200">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="brissa-storytelling__text reveal-base reveal-delay-300">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</brissa-storytelling>
+
+{% javascript %}
+  class BrissaStorytelling extends HTMLElement {
+    connectedCallback() {
+      this.image = this.querySelector('[data-brissa-storytelling-bg]');
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        this.classList.add('is-visible');
+        this.image.classList.add('is-visible');
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.classList.add('is-visible');
+              this.image.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(this);
+    }
+  }
+
+  customElements.define('brissa-storytelling', BrissaStorytelling);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brissa storytelling",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Nuestra Esencia",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "El arte de crear atmósferas",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Aromas que envuelven.<br>Luz que transforman.<br>Detalles que permanecen.</p><p>Cada BRISSA es creada para habitar tus espacios y, si lo deseas, llevar consigo una intención exclusivamente tuya.</p><p><strong>Una vela. Una atmósfera. Una intención.</strong></p>",
+      "label": "Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brissa storytelling"
+    }
+  ]
+}
+{% endschema %}

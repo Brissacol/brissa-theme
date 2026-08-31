@@ -1,0 +1,31 @@
+{{ 'section-brissa-footer.css' | asset_url | stylesheet_tag }}
+
+<footer class="brissa-footer reveal-base">
+  <div class="brissa-footer__logo">
+    {%- if settings.logo != blank -%}
+      {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+      {{ settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', alt: logo_alt, widths: '150,200,300' }}
+    {%- else -%}
+      <span class="brissa-footer__logo-text">{{ shop.name }}</span>
+    {%- endif -%}
+  </div>
+
+  {%- if shop.policies != empty -%}
+    <ul class="brissa-footer__links">
+      {%- for policy in shop.policies -%}
+        {%- if policy != blank -%}
+          <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <p class="brissa-footer__copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'brissa.footer.tagline' | t }}</p>
+</footer>
+
+{% schema %}
+{
+  "name": "Brissa footer",
+  "settings": []
+}
+{% endschema %}

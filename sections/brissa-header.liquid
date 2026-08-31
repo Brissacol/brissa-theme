@@ -1,0 +1,123 @@
+{{ 'section-brissa-header.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign nav_icons = 'auto_awesome,auto_fix_high,self_improvement,mail' | split: ','
+  assign logo_alt = settings.logo.alt | default: shop.name | escape
+-%}
+
+<brissa-header class="brissa-header brissa-hero-fade-in" id="BrissaHeader-{{ section.id }}">
+  <div class="brissa-header__bar">
+    <button type="button" class="brissa-header__icon-btn" aria-label="{{ 'brissa.header.open_menu' | t }}" data-brissa-menu-open>
+      <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+    </button>
+
+    <a href="{{ routes.root_url }}" class="brissa-header__logo">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 300 | image_tag: loading: 'eager', alt: logo_alt, widths: '150,200,300' }}
+      {%- else -%}
+        <span class="brissa-header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <a href="{{ routes.cart_url }}" class="brissa-header__icon-btn" id="cart-icon-bubble">
+      <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
+      <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+      {%- if cart != empty -%}
+        <span class="brissa-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div class="brissa-header__overlay" data-brissa-menu-overlay aria-hidden="true"> </div>
+
+  <nav class="brissa-header__drawer" data-brissa-menu-drawer aria-hidden="true">
+    <div class="brissa-header__drawer-top">
+      <a href="{{ routes.root_url }}" class="brissa-header__logo">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', alt: logo_alt, widths: '150,200,300' }}
+        {%- else -%}
+          <span class="brissa-header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+      <button type="button" class="brissa-header__icon-btn" aria-label="{{ 'brissa.header.close_menu' | t }}" data-brissa-menu-close>
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+
+    <ul class="brissa-header__drawer-list">
+      {%- for link in section.settings.menu.links -%}
+        <li>
+          <a href="{{ link.url }}" class="brissa-header__drawer-link">
+            <span class="material-symbols-outlined" aria-hidden="true">{{ nav_icons[forloop.index0] | default: 'auto_awesome' }}</span>
+            <span>{{ link.title }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+</brissa-header>
+
+{% javascript %}
+  class BrissaHeader extends HTMLElement {
+    connectedCallback() {
+      this.menuOpenBtn = this.querySelector('[data-brissa-menu-open]');
+      this.menuCloseBtn = this.querySelector('[data-brissa-menu-close]');
+      this.overlay = this.querySelector('[data-brissa-menu-overlay]');
+      this.drawer = this.querySelector('[data-brissa-menu-drawer]');
+
+      this.menuOpenBtn.addEventListener('click', () => this.openMenu());
+      this.menuCloseBtn.addEventListener('click', () => this.closeMenu());
+      this.overlay.addEventListener('click', () => this.closeMenu());
+
+      this.lastScrollY = window.scrollY;
+      this.ticking = false;
+      window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+    }
+
+    openMenu() {
+      this.drawer.classList.add('is-open');
+      this.overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeMenu() {
+      this.drawer.classList.remove('is-open');
+      this.overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    onScroll() {
+      if (this.ticking) return;
+      this.ticking = true;
+
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+
+        if (scrollY > this.lastScrollY && scrollY > 100) {
+          this.classList.add('brissa-header--hidden');
+        } else {
+          this.classList.remove('brissa-header--hidden');
+        }
+
+        this.lastScrollY = scrollY;
+        this.ticking = false;
+      });
+    }
+  }
+
+  customElements.define('brissa-header', BrissaHeader);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Brissa header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
