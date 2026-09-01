@@ -10,7 +10,6 @@
   data-cart-count="{{ cart.item_count }}"
   {%- if customer -%}
     data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape_once }}"
-    data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape_once }}"
   {%- else -%}
     data-order-guest-message="{{ 'brissa.order_placed.guest_message_html' | t: login_url: routes.storefront_login_url | escape_once }}"
   {%- endif -%}
@@ -62,29 +61,23 @@
 
       const textEl = this.querySelector('[data-toast-text]');
 
+      // Path 1: guest just completed checkout - invite them to sign in.
       if (justOrdered && !isLoggedIn && this.dataset.orderGuestMessage) {
         textEl.innerHTML = this.dataset.orderGuestMessage;
         this.consumeCheckoutClicked();
-        this.setPendingOrderThanks();
         this.show(8000);
         return;
       }
 
-      if (!isLoggedIn) return;
-
-      const justLoggedIn = !wasLoggedIn;
-      const pendingOrderThanks = justLoggedIn && this.consumePendingOrderThanks();
-      if (!justOrdered && !justLoggedIn) return;
-
-      if (justOrdered || pendingOrderThanks) {
-        textEl.textContent = this.dataset.orderMessage;
+      if (justOrdered) {
         this.consumeCheckoutClicked();
-      } else if (justLoggedIn) {
-        textEl.textContent = this.dataset.welcomeMessage;
-      } else {
-        return;
       }
 
+      // Path 2: customer just signed in (first time, voluntarily, or right after ordering).
+      const justLoggedIn = isLoggedIn && !wasLoggedIn;
+      if (!justLoggedIn) return;
+
+      textEl.textContent = this.dataset.welcomeMessage;
       this.show(5000);
     }
 
@@ -93,24 +86,6 @@
         sessionStorage.removeItem('brissaCheckoutClicked');
       } catch (error) {
         /* noop */
-      }
-    }
-
-    setPendingOrderThanks() {
-      try {
-        sessionStorage.setItem('brissaPendingOrderThanks', '1');
-      } catch (error) {
-        /* noop */
-      }
-    }
-
-    consumePendingOrderThanks() {
-      try {
-        const pending = sessionStorage.getItem('brissaPendingOrderThanks') === '1';
-        sessionStorage.removeItem('brissaPendingOrderThanks');
-        return pending;
-      } catch (error) {
-        return false;
       }
     }
 
