@@ -19,13 +19,22 @@
       {%- endif -%}
     </a>
 
-    <a href="{{ routes.cart_url }}" class="brissa-header__icon-btn" id="cart-icon-bubble">
-      <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
-      <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-      {%- if cart != empty -%}
-        <span class="brissa-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+    <div class="brissa-header__actions">
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="brissa-header__icon-btn" aria-label="{{ 'customer.account.title' | t }}">
+          <span class="material-symbols-outlined" aria-hidden="true">person</span>
+          <span class="visually-hidden">{{ 'customer.account.title' | t }}</span>
+        </a>
       {%- endif -%}
-    </a>
+
+      <a href="{{ routes.cart_url }}" class="brissa-header__icon-btn" id="cart-icon-bubble">
+        <span class="material-symbols-outlined" aria-hidden="true">shopping_bag</span>
+        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+        {%- if cart != empty -%}
+          <span class="brissa-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
   </div>
 
   <div class="brissa-header__overlay" data-brissa-menu-overlay aria-hidden="true"> </div>
