@@ -9,10 +9,10 @@
   data-logged-in="{% if customer %}true{% else %}false{% endif %}"
   data-cart-count="{{ cart.item_count }}"
   {%- if customer -%}
-    data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape }}"
-    data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape }}"
+    data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape_once }}"
+    data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape_once }}"
   {%- else -%}
-    data-order-guest-message="{{ 'brissa.order_placed.guest_message_html' | t: login_url: routes.storefront_login_url | escape }}"
+    data-order-guest-message="{{ 'brissa.order_placed.guest_message_html' | t: login_url: routes.storefront_login_url | escape_once }}"
   {%- endif -%}
 >
   <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
