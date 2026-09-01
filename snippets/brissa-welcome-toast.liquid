@@ -21,6 +21,19 @@
 {% javascript %}
   class BrissaWelcomeToast extends HTMLElement {
     connectedCallback() {
+      try {
+        if (!sessionStorage.getItem('brissaRefDebugShown')) {
+          sessionStorage.setItem('brissaRefDebugShown', '1');
+          const debugBar = document.createElement('div');
+          debugBar.textContent = 'referrer: ' + (document.referrer || '(vacío)');
+          debugBar.style.cssText =
+            'position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#000;color:#fff;font-size:11px;padding:8px;word-break:break-all;';
+          document.body.appendChild(debugBar);
+        }
+      } catch (error) {
+        /* noop */
+      }
+
       const isLoggedIn = this.dataset.loggedIn === 'true';
       let wasLoggedIn = false;
 
