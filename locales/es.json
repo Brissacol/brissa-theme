@@ -557,7 +557,8 @@
   "brissa": {
     "header": {
       "open_menu": "Abrir menú",
-      "close_menu": "Cerrar menú"
+      "close_menu": "Cerrar menú",
+      "orders": "Mis pedidos"
     },
     "footer": {
       "tagline": "Elixires para el alma."
