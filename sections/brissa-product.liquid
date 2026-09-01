@@ -229,8 +229,8 @@
           const deltaY = touch.clientY - startY;
 
           if (axis === null) {
-            if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
-            axis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+            if (Math.abs(deltaX) < 15 && Math.abs(deltaY) < 15) return;
+            axis = Math.abs(deltaX) > Math.abs(deltaY) * 1.5 ? 'x' : 'y';
           }
 
           if (axis === 'x') {
