@@ -1,22 +1,35 @@
 {%- comment -%} brissa welcome toast {%- endcomment -%}
 {%- if customer -%}
   {{ 'component-brissa-welcome-toast.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
-  <brissa-welcome-toast class="brissa-welcome-toast" role="status" aria-live="polite" hidden>
+<brissa-welcome-toast
+  class="brissa-welcome-toast"
+  role="status"
+  aria-live="polite"
+  hidden
+  data-logged-in="{% if customer %}true{% else %}false{% endif %}"
+>
+  {%- if customer -%}
     <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
     <span>{{ 'brissa.welcome.message' | t: name: customer.first_name }}</span>
-  </brissa-welcome-toast>
-{%- endif -%}
+  {%- endif -%}
+</brissa-welcome-toast>
 
 {% javascript %}
   class BrissaWelcomeToast extends HTMLElement {
     connectedCallback() {
+      const isLoggedIn = this.dataset.loggedIn === 'true';
+      let wasLoggedIn = false;
+
       try {
-        if (sessionStorage.getItem('brissaWelcomed')) return;
-        sessionStorage.setItem('brissaWelcomed', '1');
+        wasLoggedIn = sessionStorage.getItem('brissaAuthState') === 'in';
+        sessionStorage.setItem('brissaAuthState', isLoggedIn ? 'in' : 'out');
       } catch (error) {
         return;
       }
+
+      if (!isLoggedIn || wasLoggedIn) return;
 
       this.hidden = false;
       requestAnimationFrame(() => this.classList.add('is-visible'));
