@@ -51,7 +51,7 @@
       try {
         const checkoutClicked = sessionStorage.getItem('brissaCheckoutClicked') === '1';
         if (checkoutClicked && cartCount === 0) {
-          justOrdered = !sessionStorage.getItem('brissaOrderThanked');
+          justOrdered = true;
         } else if (checkoutClicked && cartCount > 0) {
           // Came back with items still in the cart: checkout was abandoned, not completed.
           sessionStorage.removeItem('brissaCheckoutClicked');
@@ -64,7 +64,7 @@
 
       if (justOrdered && !isLoggedIn && this.dataset.orderGuestMessage) {
         textEl.innerHTML = this.dataset.orderGuestMessage;
-        this.markOrderThanked();
+        this.consumeCheckoutClicked();
         this.setPendingOrderThanks();
         this.show(8000);
         return;
@@ -78,7 +78,7 @@
 
       if (justOrdered || pendingOrderThanks) {
         textEl.textContent = this.dataset.orderMessage;
-        this.markOrderThanked();
+        this.consumeCheckoutClicked();
       } else if (justLoggedIn) {
         textEl.textContent = this.dataset.welcomeMessage;
       } else {
@@ -88,9 +88,8 @@
       this.show(5000);
     }
 
-    markOrderThanked() {
+    consumeCheckoutClicked() {
       try {
-        sessionStorage.setItem('brissaOrderThanked', '1');
         sessionStorage.removeItem('brissaCheckoutClicked');
       } catch (error) {
         /* noop */
