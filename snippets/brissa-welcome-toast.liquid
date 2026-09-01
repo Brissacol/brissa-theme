@@ -7,6 +7,7 @@
   aria-live="polite"
   hidden
   data-logged-in="{% if customer %}true{% else %}false{% endif %}"
+  data-cart-count="{{ cart.item_count }}"
   {%- if customer -%}
     data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape }}"
     data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape }}"
@@ -19,22 +20,24 @@
 </brissa-welcome-toast>
 
 {% javascript %}
-  class BrissaWelcomeToast extends HTMLElement {
-    connectedCallback() {
+  document.addEventListener(
+    'click',
+    (event) => {
+      const target = event.target.closest('[name="checkout"]');
+      if (!target) return;
       try {
-        if (!sessionStorage.getItem('brissaRefDebugShown')) {
-          sessionStorage.setItem('brissaRefDebugShown', '1');
-          const debugBar = document.createElement('div');
-          debugBar.textContent = 'referrer: ' + (document.referrer || '(vacío)');
-          debugBar.style.cssText =
-            'position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#000;color:#fff;font-size:11px;padding:8px;word-break:break-all;';
-          document.body.appendChild(debugBar);
-        }
+        sessionStorage.setItem('brissaCheckoutClicked', '1');
       } catch (error) {
         /* noop */
       }
+    },
+    true
+  );
 
+  class BrissaWelcomeToast extends HTMLElement {
+    connectedCallback() {
       const isLoggedIn = this.dataset.loggedIn === 'true';
+      const cartCount = parseInt(this.dataset.cartCount, 10) || 0;
       let wasLoggedIn = false;
 
       try {
@@ -46,7 +49,13 @@
 
       let justOrdered = false;
       try {
-        justOrdered = /thank_you/.test(document.referrer) && !sessionStorage.getItem('brissaOrderThanked');
+        const checkoutClicked = sessionStorage.getItem('brissaCheckoutClicked') === '1';
+        if (checkoutClicked && cartCount === 0) {
+          justOrdered = !sessionStorage.getItem('brissaOrderThanked');
+        } else if (checkoutClicked && cartCount > 0) {
+          // Came back with items still in the cart: checkout was abandoned, not completed.
+          sessionStorage.removeItem('brissaCheckoutClicked');
+        }
       } catch (error) {
         justOrdered = false;
       }
@@ -82,6 +91,7 @@
     markOrderThanked() {
       try {
         sessionStorage.setItem('brissaOrderThanked', '1');
+        sessionStorage.removeItem('brissaCheckoutClicked');
       } catch (error) {
         /* noop */
       }
