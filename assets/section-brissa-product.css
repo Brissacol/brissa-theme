@@ -52,18 +52,25 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  overflow: hidden;
   touch-action: pan-y;
   border-radius: 1rem;
   background: rgb(var(--brissa-surface-container-low));
 }
 
+.brissa-product__gallery-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.brissa-product__gallery-track.is-dragging {
+  transition: none;
+}
+
 .brissa-product__gallery-slide {
   flex: 0 0 100%;
-  scroll-snap-align: center;
   width: 100%;
   height: 100%;
 }

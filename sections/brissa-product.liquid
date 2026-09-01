@@ -42,20 +42,22 @@
   <div class="brissa-product__grid">
     <brissa-product-gallery class="brissa-product__media reveal-base">
       {%- if product.media.size > 0 -%}
-        <div class="brissa-product__gallery-main brissa-hide-scrollbar" data-brissa-gallery-main>
-          {%- for media in product.media -%}
-            <div class="brissa-product__gallery-slide" id="BrissaProductImage-{{ section.id }}-{{ forloop.index }}">
-              {{
-                media
-                | image_url: width: 1200
-                | image_tag:
-                  loading: forloop.first | default: 'lazy',
-                  widths: '400,600,900,1200',
-                  sizes: '(min-width: 990px) 55vw, 100vw',
-                  alt: media.alt | default: product.title | escape
-              }}
-            </div>
-          {%- endfor -%}
+        <div class="brissa-product__gallery-main" data-brissa-gallery-main>
+          <div class="brissa-product__gallery-track" data-brissa-gallery-track>
+            {%- for media in product.media -%}
+              <div class="brissa-product__gallery-slide" id="BrissaProductImage-{{ section.id }}-{{ forloop.index }}">
+                {{
+                  media
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: forloop.first | default: 'lazy',
+                    widths: '400,600,900,1200',
+                    sizes: '(min-width: 990px) 55vw, 100vw',
+                    alt: media.alt | default: product.title | escape
+                }}
+              </div>
+            {%- endfor -%}
+          </div>
         </div>
 
         {%- if product.media.size > 1 -%}
@@ -74,7 +76,9 @@
         {%- endif -%}
       {%- else -%}
         <div class="brissa-product__gallery-main">
-          <div class="brissa-product__gallery-slide">{{ 'product-1' | placeholder_svg_tag: 'brissa-product__placeholder' }}</div>
+          <div class="brissa-product__gallery-track">
+            <div class="brissa-product__gallery-slide">{{ 'product-1' | placeholder_svg_tag: 'brissa-product__placeholder' }}</div>
+          </div>
         </div>
       {%- endif -%}
 
@@ -188,25 +192,44 @@
   class BrissaProductGallery extends HTMLElement {
     connectedCallback() {
       this.main = this.querySelector('[data-brissa-gallery-main]');
+      this.track = this.querySelector('[data-brissa-gallery-track]');
+      this.slides = this.track ? Array.from(this.track.children) : [];
       this.thumbs = Array.from(this.querySelectorAll('[data-brissa-gallery-target]'));
+      this.activeIndex = 0;
 
-      if (!this.main || !this.thumbs.length) return;
+      if (!this.main || !this.track || !this.slides.length) return;
 
-      this.main.addEventListener('scroll', () => this.onScroll(), { passive: true });
-      this.thumbs.forEach((thumb) => {
-        thumb.addEventListener('click', () => {
-          const target = this.querySelector('#' + thumb.dataset.brissaGalleryTarget);
-          if (target) target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-        });
+      this.thumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => this.goTo(index));
       });
 
+      window.addEventListener('resize', () => this.goTo(this.activeIndex, false));
+
       this.setupTouchSwipe();
+    }
+
+    goTo(index, animate) {
+      if (animate === undefined) animate = true;
+      index = Math.max(0, Math.min(index, this.slides.length - 1));
+      this.activeIndex = index;
+
+      const offset = -index * this.main.getBoundingClientRect().width;
+
+      if (!animate) this.track.classList.add('is-dragging');
+      this.track.style.transform = 'translateX(' + offset + 'px)';
+      if (!animate) {
+        void this.track.offsetHeight;
+        this.track.classList.remove('is-dragging');
+      }
+
+      this.thumbs.forEach((thumb, i) => thumb.classList.toggle('is-active', i === index));
     }
 
     setupTouchSwipe() {
       let startX = 0;
       let startY = 0;
-      let startScrollLeft = 0;
+      let baseOffset = 0;
+      let width = 0;
       let axis = null;
 
       this.main.addEventListener(
@@ -215,8 +238,10 @@
           const touch = event.touches[0];
           startX = touch.clientX;
           startY = touch.clientY;
-          startScrollLeft = this.main.scrollLeft;
+          width = this.main.getBoundingClientRect().width;
+          baseOffset = -this.activeIndex * width;
           axis = null;
+          this.track.classList.add('is-dragging');
         },
         { passive: true }
       );
@@ -231,15 +256,16 @@
           if (axis === null) {
             // Must decide on the very first meaningful move: once a browser commits to
             // native vertical scrolling for this touch, a later preventDefault can't take
-            // it back, which is what caused the visible jump/shift. Deciding late is worse
-            // than deciding fast, so we only ask for a clear (not just larger) X dominance.
+            // it back. Deciding late is worse than deciding fast, so we only ask for a
+            // clear (not just larger) X dominance rather than waiting for more movement.
             if (Math.abs(deltaX) < 4 && Math.abs(deltaY) < 4) return;
             axis = Math.abs(deltaX) > Math.abs(deltaY) * 1.4 ? 'x' : 'y';
+            if (axis !== 'x') this.track.classList.remove('is-dragging');
           }
 
           if (axis === 'x') {
             event.preventDefault();
-            this.main.scrollLeft = startScrollLeft - deltaX;
+            this.track.style.transform = 'translateX(' + (baseOffset + deltaX) + 'px)';
           }
         },
         { passive: false }
@@ -247,50 +273,23 @@
 
       this.main.addEventListener(
         'touchend',
-        () => {
+        (event) => {
+          this.track.classList.remove('is-dragging');
+
           if (axis === 'x') {
-            const slides = Array.from(this.main.children);
-            const scrollLeft = this.main.scrollLeft;
-            let nearest = slides[0];
-            let minDistance = Infinity;
-
-            slides.forEach((slide) => {
-              const distance = Math.abs(slide.offsetLeft - scrollLeft);
-              if (distance < minDistance) {
-                minDistance = distance;
-                nearest = slide;
-              }
-            });
-
-            if (nearest) nearest.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            const touch = event.changedTouches[0];
+            const deltaX = touch.clientX - startX;
+            let targetIndex = this.activeIndex;
+            if (Math.abs(deltaX) > width * 0.2) {
+              targetIndex += deltaX < 0 ? 1 : -1;
+            }
+            this.goTo(targetIndex);
           }
+
           axis = null;
         },
         { passive: true }
       );
-    }
-
-    onScroll() {
-      if (this.ticking) return;
-      this.ticking = true;
-
-      requestAnimationFrame(() => {
-        const slides = Array.from(this.main.children);
-        const scrollLeft = this.main.scrollLeft;
-        let activeIndex = 0;
-        let minDistance = Infinity;
-
-        slides.forEach((slide, index) => {
-          const distance = Math.abs(slide.offsetLeft - scrollLeft);
-          if (distance < minDistance) {
-            minDistance = distance;
-            activeIndex = index;
-          }
-        });
-
-        this.thumbs.forEach((thumb, index) => thumb.classList.toggle('is-active', index === activeIndex));
-        this.ticking = false;
-      });
     }
   }
 
