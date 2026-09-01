@@ -43,6 +43,7 @@
       if (justOrdered && !isLoggedIn && this.dataset.orderGuestMessage) {
         textEl.innerHTML = this.dataset.orderGuestMessage;
         this.markOrderThanked();
+        this.setPendingOrderThanks();
         this.show(8000);
         return;
       }
@@ -50,13 +51,16 @@
       if (!isLoggedIn) return;
 
       const justLoggedIn = !wasLoggedIn;
+      const pendingOrderThanks = justLoggedIn && this.consumePendingOrderThanks();
       if (!justOrdered && !justLoggedIn) return;
 
-      if (justOrdered) {
+      if (justOrdered || pendingOrderThanks) {
         textEl.textContent = this.dataset.orderMessage;
         this.markOrderThanked();
-      } else {
+      } else if (justLoggedIn) {
         textEl.textContent = this.dataset.welcomeMessage;
+      } else {
+        return;
       }
 
       this.show(5000);
@@ -67,6 +71,24 @@
         sessionStorage.setItem('brissaOrderThanked', '1');
       } catch (error) {
         /* noop */
+      }
+    }
+
+    setPendingOrderThanks() {
+      try {
+        sessionStorage.setItem('brissaPendingOrderThanks', '1');
+      } catch (error) {
+        /* noop */
+      }
+    }
+
+    consumePendingOrderThanks() {
+      try {
+        const pending = sessionStorage.getItem('brissaPendingOrderThanks') === '1';
+        sessionStorage.removeItem('brissaPendingOrderThanks');
+        return pending;
+      } catch (error) {
+        return false;
       }
     }
 
