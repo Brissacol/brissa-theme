@@ -575,6 +575,9 @@
     "welcome": {
       "message": "¡Hola, {{ name }}! Iniciaste sesión con éxito. Ya puedes empezar a comprar."
     },
+    "order_placed": {
+      "message": "¡Gracias por tu compra, {{ name }}! Sigue el estado de tu pedido desde el menú, en \"Mis pedidos\"."
+    },
     "insignia": {
       "discover": "Descubrir",
       "go_to_slide": "Ir al producto {{ number }}"

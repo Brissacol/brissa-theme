@@ -560,6 +560,9 @@
     "welcome": {
       "message": "Hi, {{ name }}! You're signed in. You can start shopping now."
     },
+    "order_placed": {
+      "message": "Thanks for your order, {{ name }}! Track its status anytime from the menu, under \"My orders\"."
+    },
     "footer": {
       "tagline": "Elixirs for the soul."
     },

@@ -1,4 +1,4 @@
-{%- comment -%} brissa welcome toast {%- endcomment -%}
+{%- comment -%} brissa toast: welcome + order tracking {%- endcomment -%}
 {%- if customer -%}
   {{ 'component-brissa-welcome-toast.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -9,11 +9,13 @@
   aria-live="polite"
   hidden
   data-logged-in="{% if customer %}true{% else %}false{% endif %}"
->
   {%- if customer -%}
-    <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
-    <span>{{ 'brissa.welcome.message' | t: name: customer.first_name }}</span>
+    data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape }}"
+    data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape }}"
   {%- endif -%}
+>
+  <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+  <span data-toast-text></span>
 </brissa-welcome-toast>
 
 {% javascript %}
@@ -29,7 +31,29 @@
         return;
       }
 
-      if (!isLoggedIn || wasLoggedIn) return;
+      if (!isLoggedIn) return;
+
+      let justOrdered = false;
+      try {
+        justOrdered = /thank_you/.test(document.referrer) && !sessionStorage.getItem('brissaOrderThanked');
+      } catch (error) {
+        justOrdered = false;
+      }
+
+      const justLoggedIn = !wasLoggedIn;
+      if (!justOrdered && !justLoggedIn) return;
+
+      const textEl = this.querySelector('[data-toast-text]');
+      if (justOrdered) {
+        textEl.textContent = this.dataset.orderMessage;
+        try {
+          sessionStorage.setItem('brissaOrderThanked', '1');
+        } catch (error) {
+          /* noop */
+        }
+      } else {
+        textEl.textContent = this.dataset.welcomeMessage;
+      }
 
       this.hidden = false;
       requestAnimationFrame(() => this.classList.add('is-visible'));
