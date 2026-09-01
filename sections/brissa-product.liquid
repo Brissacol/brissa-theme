@@ -199,6 +199,71 @@
           if (target) target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
         });
       });
+
+      this.setupTouchSwipe();
+    }
+
+    setupTouchSwipe() {
+      let startX = 0;
+      let startY = 0;
+      let startScrollLeft = 0;
+      let axis = null;
+
+      this.main.addEventListener(
+        'touchstart',
+        (event) => {
+          const touch = event.touches[0];
+          startX = touch.clientX;
+          startY = touch.clientY;
+          startScrollLeft = this.main.scrollLeft;
+          axis = null;
+        },
+        { passive: true }
+      );
+
+      this.main.addEventListener(
+        'touchmove',
+        (event) => {
+          const touch = event.touches[0];
+          const deltaX = touch.clientX - startX;
+          const deltaY = touch.clientY - startY;
+
+          if (axis === null) {
+            if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
+            axis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y';
+          }
+
+          if (axis === 'x') {
+            event.preventDefault();
+            this.main.scrollLeft = startScrollLeft - deltaX;
+          }
+        },
+        { passive: false }
+      );
+
+      this.main.addEventListener(
+        'touchend',
+        () => {
+          if (axis === 'x') {
+            const slides = Array.from(this.main.children);
+            const scrollLeft = this.main.scrollLeft;
+            let nearest = slides[0];
+            let minDistance = Infinity;
+
+            slides.forEach((slide) => {
+              const distance = Math.abs(slide.offsetLeft - scrollLeft);
+              if (distance < minDistance) {
+                minDistance = distance;
+                nearest = slide;
+              }
+            });
+
+            if (nearest) nearest.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+          }
+          axis = null;
+        },
+        { passive: true }
+      );
     }
 
     onScroll() {
