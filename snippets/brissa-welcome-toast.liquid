@@ -6,31 +6,31 @@
     <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
     <span>{{ 'brissa.welcome.message' | t: name: customer.first_name }}</span>
   </brissa-welcome-toast>
+{%- endif -%}
 
-  {% javascript %}
-    class BrissaWelcomeToast extends HTMLElement {
-      connectedCallback() {
-        try {
-          if (sessionStorage.getItem('brissaWelcomed')) return;
-          sessionStorage.setItem('brissaWelcomed', '1');
-        } catch (error) {
-          return;
-        }
-
-        this.hidden = false;
-        requestAnimationFrame(() => this.classList.add('is-visible'));
-        this.autoCloseTimeout = setTimeout(() => this.close(), 5000);
+{% javascript %}
+  class BrissaWelcomeToast extends HTMLElement {
+    connectedCallback() {
+      try {
+        if (sessionStorage.getItem('brissaWelcomed')) return;
+        sessionStorage.setItem('brissaWelcomed', '1');
+      } catch (error) {
+        return;
       }
 
-      close() {
-        this.classList.remove('is-visible');
-        clearTimeout(this.autoCloseTimeout);
-        setTimeout(() => {
-          this.hidden = true;
-        }, 300);
-      }
+      this.hidden = false;
+      requestAnimationFrame(() => this.classList.add('is-visible'));
+      this.autoCloseTimeout = setTimeout(() => this.close(), 5000);
     }
 
-    customElements.define('brissa-welcome-toast', BrissaWelcomeToast);
-  {% endjavascript %}
-{%- endif -%}
+    close() {
+      this.classList.remove('is-visible');
+      clearTimeout(this.autoCloseTimeout);
+      setTimeout(() => {
+        this.hidden = true;
+      }, 300);
+    }
+  }
+
+  customElements.define('brissa-welcome-toast', BrissaWelcomeToast);
+{% endjavascript %}
