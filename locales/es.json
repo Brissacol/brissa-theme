@@ -576,7 +576,8 @@
       "message": "¡Hola, {{ name }}! Iniciaste sesión con éxito. Ya puedes empezar a comprar."
     },
     "order_placed": {
-      "message": "¡Gracias por tu compra, {{ name }}! Sigue el estado de tu pedido desde el menú, en \"Mis pedidos\"."
+      "message": "¡Gracias por tu compra, {{ name }}! Sigue el estado de tu pedido desde el menú, en \"Mis pedidos\".",
+      "guest_message_html": "¡Gracias por tu compra! <a href=\"{{ login_url }}\">Inicia sesión</a> para seguir el estado de tu pedido desde el menú, en \"Mis pedidos\"."
     },
     "insignia": {
       "discover": "Descubrir",

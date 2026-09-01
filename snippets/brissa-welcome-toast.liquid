@@ -1,7 +1,5 @@
 {%- comment -%} brissa toast: welcome + order tracking {%- endcomment -%}
-{%- if customer -%}
-  {{ 'component-brissa-welcome-toast.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
+{{ 'component-brissa-welcome-toast.css' | asset_url | stylesheet_tag }}
 
 <brissa-welcome-toast
   class="brissa-welcome-toast"
@@ -12,6 +10,8 @@
   {%- if customer -%}
     data-welcome-message="{{ 'brissa.welcome.message' | t: name: customer.first_name | escape }}"
     data-order-message="{{ 'brissa.order_placed.message' | t: name: customer.first_name | escape }}"
+  {%- else -%}
+    data-order-guest-message="{{ 'brissa.order_placed.guest_message_html' | t: login_url: routes.storefront_login_url | escape }}"
   {%- endif -%}
 >
   <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
@@ -31,8 +31,6 @@
         return;
       }
 
-      if (!isLoggedIn) return;
-
       let justOrdered = false;
       try {
         justOrdered = /thank_you/.test(document.referrer) && !sessionStorage.getItem('brissaOrderThanked');
@@ -40,24 +38,42 @@
         justOrdered = false;
       }
 
+      const textEl = this.querySelector('[data-toast-text]');
+
+      if (justOrdered && !isLoggedIn && this.dataset.orderGuestMessage) {
+        textEl.innerHTML = this.dataset.orderGuestMessage;
+        this.markOrderThanked();
+        this.show(8000);
+        return;
+      }
+
+      if (!isLoggedIn) return;
+
       const justLoggedIn = !wasLoggedIn;
       if (!justOrdered && !justLoggedIn) return;
 
-      const textEl = this.querySelector('[data-toast-text]');
       if (justOrdered) {
         textEl.textContent = this.dataset.orderMessage;
-        try {
-          sessionStorage.setItem('brissaOrderThanked', '1');
-        } catch (error) {
-          /* noop */
-        }
+        this.markOrderThanked();
       } else {
         textEl.textContent = this.dataset.welcomeMessage;
       }
 
+      this.show(5000);
+    }
+
+    markOrderThanked() {
+      try {
+        sessionStorage.setItem('brissaOrderThanked', '1');
+      } catch (error) {
+        /* noop */
+      }
+    }
+
+    show(duration) {
       this.hidden = false;
       requestAnimationFrame(() => this.classList.add('is-visible'));
-      this.autoCloseTimeout = setTimeout(() => this.close(), 5000);
+      this.autoCloseTimeout = setTimeout(() => this.close(), duration);
     }
 
     close() {
