@@ -56,7 +56,7 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  touch-action: pan-x pan-y;
+  touch-action: pan-y;
   border-radius: 1rem;
   background: rgb(var(--brissa-surface-container-low));
 }
