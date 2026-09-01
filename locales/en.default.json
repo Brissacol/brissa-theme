@@ -548,6 +548,9 @@
       "close_menu": "Close menu",
       "orders": "My orders"
     },
+    "welcome": {
+      "message": "Hi, {{ name }}! You're signed in. You can start shopping now."
+    },
     "footer": {
       "tagline": "Elixirs for the soul."
     },

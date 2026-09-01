@@ -1,0 +1,34 @@
+.brissa-welcome-toast {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  z-index: 9991;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 48px);
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgb(var(--brissa-primary));
+  color: rgb(var(--brissa-on-primary));
+  font-family: var(--brissa-font-body);
+  font-size: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateX(-50%) translateY(-12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.brissa-welcome-toast[hidden] {
+  display: none;
+}
+
+.brissa-welcome-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.brissa-welcome-toast .material-symbols-outlined {
+  flex-shrink: 0;
+  font-size: 20px;
+}

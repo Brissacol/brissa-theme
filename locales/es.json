@@ -563,6 +563,9 @@
     "footer": {
       "tagline": "Elixires para el alma."
     },
+    "welcome": {
+      "message": "¡Hola, {{ name }}! Iniciaste sesión con éxito. Ya puedes empezar a comprar."
+    },
     "insignia": {
       "discover": "Descubrir",
       "go_to_slide": "Ir al producto {{ number }}"
