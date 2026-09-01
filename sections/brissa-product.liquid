@@ -229,8 +229,12 @@
           const deltaY = touch.clientY - startY;
 
           if (axis === null) {
-            if (Math.abs(deltaX) < 15 && Math.abs(deltaY) < 15) return;
-            axis = Math.abs(deltaX) > Math.abs(deltaY) * 1.5 ? 'x' : 'y';
+            // Must decide on the very first meaningful move: once a browser commits to
+            // native vertical scrolling for this touch, a later preventDefault can't take
+            // it back, which is what caused the visible jump/shift. Deciding late is worse
+            // than deciding fast, so we only ask for a clear (not just larger) X dominance.
+            if (Math.abs(deltaX) < 4 && Math.abs(deltaY) < 4) return;
+            axis = Math.abs(deltaX) > Math.abs(deltaY) * 1.4 ? 'x' : 'y';
           }
 
           if (axis === 'x') {
