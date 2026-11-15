@@ -1,8 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "brissa-contact"
+      "type": "brissa-contact",
+      "settings": {
+        "background_image": "shopify://shop_images/C823AB80-9248-4E7D-96AB-EE9356A67727.png",
+        "heading": "Conecta con nuestra esencia",
+        "text": "Descubre más sobre nuestros elixires y forma parte de nuestra comunidad.",
+        "instagram_handle": "@brissa_col",
+        "tiktok_handle": "@brissa_col",
+        "whatsapp_label": "Escríbenos",
+        "show_newsletter": true,
+        "newsletter_button_label": "Suscribirse"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
