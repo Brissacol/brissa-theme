@@ -23,9 +23,10 @@
     "brissa_storytelling": {
       "type": "brissa-storytelling",
       "settings": {
+        "image": "shopify://shop_images/F11D254D-AAEA-47FD-9FCE-49251EF5BC63.png",
         "eyebrow": "Nuestra Esencia",
         "heading": "El arte de crear atmósferas",
-        "text": "<p>Aromas que envuelven.<br>Luz que transforman.<br>Detalles que permanecen.</p><p>Cada BRISSA es creada para habitar tus espacios y, si lo deseas, llevar consigo una intención exclusivamente tuya.</p><p><strong>Una vela. Una atmósfera. Una intención.</strong></p>",
+        "text": "<p>Aromas que envuelven.<br/>Luz que transforman.<br/>Detalles que permanecen.</p><p>Cada BRISSA es creada para habitar tus espacios y, si lo deseas, llevar consigo una intención exclusivamente tuya.</p><p><strong>Una vela. Una atmósfera. Una intención.</strong></p>",
         "link_label": "Conoce nuestra filosofía"
       }
     },
