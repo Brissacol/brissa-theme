@@ -24,7 +24,16 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="preload" as="font" href="{{ 'material-symbols-subset.woff2' | asset_url }}" type="font/woff2" crossorigin>
+    <style>
+      @font-face {
+        font-family: 'Material Symbols Outlined';
+        font-style: normal;
+        font-weight: 300;
+        font-display: block;
+        src: url('{{ 'material-symbols-subset.woff2' | asset_url }}') format('woff2');
+      }
+    </style>
 
     {{ 'brissa-shared.css' | asset_url | stylesheet_tag }}
 
