@@ -41,7 +41,7 @@
             "fallback_image_filename": "brissa-product-amelie.png",
             "description_line_1": "Notas de rosas",
             "description_line_2": "y algodón que envuelven el alma.",
-            "text_position": "left",
+            "text_position": "right",
             "narrow": false
           }
         },
@@ -53,7 +53,7 @@
             "fallback_image_filename": "brissa-product-eter.png",
             "description_line_1": "Una danza etérea de rosa, jazmín",
             "description_line_2": "y vainilla.",
-            "text_position": "left",
+            "text_position": "right",
             "narrow": false
           }
         },
