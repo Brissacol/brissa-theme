@@ -10,10 +10,24 @@
 {
   "sections": {
     "brissa_hero": {
-      "type": "brissa-hero"
+      "type": "brissa-hero",
+      "settings": {
+        "image": "shopify://shop_images/6F73359C-2308-4D0B-B7C0-463A81FFA8C3.png",
+        "heading": "Elixires para el alma",
+        "text": "<p>Velas que transforman espacios,<br/>despiertan sentidos<br/>y guardan una intención.</p>",
+        "button_label": "Explorar Colección",
+        "button_link": "",
+        "scroll_hint_text": "Desliza para descubrir"
+      }
     },
     "brissa_storytelling": {
-      "type": "brissa-storytelling"
+      "type": "brissa-storytelling",
+      "settings": {
+        "eyebrow": "Nuestra Esencia",
+        "heading": "El arte de crear atmósferas",
+        "text": "<p>Aromas que envuelven.<br>Luz que transforman.<br>Detalles que permanecen.</p><p>Cada BRISSA es creada para habitar tus espacios y, si lo deseas, llevar consigo una intención exclusivamente tuya.</p><p><strong>Una vela. Una atmósfera. Una intención.</strong></p>",
+        "link_label": "Conoce nuestra filosofía"
+      }
     },
     "brissa_insignia_carousel": {
       "type": "brissa-insignia-carousel",
@@ -26,7 +40,8 @@
             "fallback_image_filename": "brissa-product-amelie.png",
             "description_line_1": "Notas de rosas",
             "description_line_2": "y algodón que envuelven el alma.",
-            "text_position": "left"
+            "text_position": "left",
+            "narrow": false
           }
         },
         "product-2": {
@@ -37,7 +52,8 @@
             "fallback_image_filename": "brissa-product-eter.png",
             "description_line_1": "Una danza etérea de rosa, jazmín",
             "description_line_2": "y vainilla.",
-            "text_position": "left"
+            "text_position": "left",
+            "narrow": false
           }
         },
         "product-3": {
@@ -47,6 +63,7 @@
             "title": "Lúmina",
             "fallback_image_filename": "brissa-product-lumina.png",
             "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
+            "description_line_2": "",
             "text_position": "left",
             "narrow": true
           }
@@ -59,7 +76,8 @@
             "fallback_image_filename": "brissa-product-nectar.png",
             "description_line_1": "Dulzura envolvente de algodón,",
             "description_line_2": "vainilla y lavanda.",
-            "text_position": "left"
+            "text_position": "left",
+            "narrow": false
           }
         },
         "product-5": {
@@ -69,11 +87,23 @@
             "title": "Ámbar",
             "fallback_image_filename": "brissa-product-ambar.png",
             "description_line_1": "La calidez profunda del chocolate y la vainilla.",
-            "text_position": "right"
+            "description_line_2": "",
+            "text_position": "right",
+            "narrow": false
           }
         }
       },
-      "block_order": ["product-1", "product-2", "product-3", "product-4", "product-5"]
+      "block_order": [
+        "product-1",
+        "product-2",
+        "product-3",
+        "product-4",
+        "product-5"
+      ],
+      "settings": {
+        "heading": "Colección Insignia",
+        "catalog_link_label": "Ver catálogo completo"
+      }
     }
   },
   "order": [
