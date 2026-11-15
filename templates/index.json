@@ -65,7 +65,7 @@
             "fallback_image_filename": "brissa-product-lumina.png",
             "description_line_1": "La serenidad de la lavanda fundida con jazmín.",
             "description_line_2": "",
-            "text_position": "left",
+            "text_position": "right",
             "narrow": true
           }
         },
