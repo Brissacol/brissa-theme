@@ -1,7 +1,21 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "brissa_collection_hero": {
-      "type": "brissa-collection-hero"
+      "type": "brissa-collection-hero",
+      "settings": {
+        "image": "shopify://shop_images/670031E6-0766-4356-B676-88F726461050.png",
+        "fallback_title": "Catálogo",
+        "fallback_text": "Explora nuestra colección completa de elixires, diseñados para elevar el espíritu y transformar tu espacio."
+      }
     },
     "brissa_collection_grid": {
       "type": "brissa-collection-grid",
@@ -10,5 +24,8 @@
       }
     }
   },
-  "order": ["brissa_collection_hero", "brissa_collection_grid"]
+  "order": [
+    "brissa_collection_hero",
+    "brissa_collection_grid"
+  ]
 }
